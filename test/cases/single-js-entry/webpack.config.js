@@ -1,6 +1,6 @@
-const WebpackFixStyleOnlyEntries = require("../../../index.js");
+const WebpackRemoveEmptyScripts = require("../../../index.js");
 
 module.exports = {
   entry: "./index",
-  plugins: [new WebpackFixStyleOnlyEntries()],
+  plugins: [new WebpackRemoveEmptyScripts()],
 };

@@ -1,4 +1,4 @@
-const WebpackFixStyleOnlyEntries = require("../../../index.js");
+const WebpackRemoveEmptyScripts = require("../../../index.js");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -13,7 +13,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new WebpackFixStyleOnlyEntries({ extensions: ["foo", "bar"] }),
+    new WebpackRemoveEmptyScripts({ extensions: ["foo", "bar"] }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),

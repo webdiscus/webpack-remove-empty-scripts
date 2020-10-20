@@ -1,4 +1,4 @@
-const WebpackFixStyleOnlyEntries = require("../../../index.js");
+const WebpackRemoveEmptyScripts = require("../../../index.js");
 
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -19,7 +19,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new WebpackFixStyleOnlyEntries({ ignore: "webpack-hot-middleware" }),
+    new WebpackRemoveEmptyScripts({ ignore: "webpack-hot-middleware" }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),
