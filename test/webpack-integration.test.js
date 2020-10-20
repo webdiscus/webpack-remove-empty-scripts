@@ -1,10 +1,10 @@
-// kindly lifted from https://github.com/webpack-contrib/extract-text-webpack-plugin/blob/master/test/webpack-integration.test.js
 /* eslint-disable import/no-dynamic-require, global-require */
+
 const fs = require("fs");
-var rimraf = require("rimraf");
 const path = require("path");
+const rimraf = require("rimraf");
 const webpack = require("webpack");
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 
 const modes = ["development", "production"];
 const cases = fs.readdirSync(path.join(__dirname, "cases"));
@@ -12,6 +12,7 @@ const cases = fs.readdirSync(path.join(__dirname, "cases"));
 beforeAll(() => {
   rimraf.sync(path.join(__dirname, "outputs"));
 });
+
 beforeEach(() => {
   jest.setTimeout(10000);
 });
@@ -27,8 +28,8 @@ describe("Webpack Integration Tests", () => {
           return done("no config file for test: " + testCase);
         }
 
-        var baseConfig = require(configFile);
-        var configDefaults = {
+        let baseConfig = require(configFile);
+        let configDefaults = {
           mode: mode,
           context: testDirectory,
           output: {
