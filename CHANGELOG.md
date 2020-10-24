@@ -1,3 +1,6 @@
+## 0.6.2 (Oct 24, 2020)
+Update npm packages.
+
 ## 0.6.1 (Oct 20, 2020)
 The fork of original `https://github.com/fqborges/webpack-fix-style-only-entries` (ver. 0.6.0) for support only Webpack 5 and above. 
 The Webpack 4 is no longer supported.
