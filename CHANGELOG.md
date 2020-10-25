@@ -1,3 +1,6 @@
+## 0.6.3 (Oct 25, 2020)
+Fix BREAKING CHANGE in Webpack 5: No more changes should happen to `Compilation.assets`. Update code accord new API.
+
 ## 0.6.2 (Oct 24, 2020)
 Update npm packages.
 

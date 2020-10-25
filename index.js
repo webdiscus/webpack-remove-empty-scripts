@@ -59,7 +59,7 @@ class WebpackRemoveEmptyScriptsPlugin {
           }
           
           chunk.files.delete(file);
-          delete compilation.assets[file];
+          compilation.deleteAsset(file);
         }
       });
     });
