@@ -1,3 +1,10 @@
+## 0.6.4 (Dec 19, 2020)
+- Bugfix the error: `Maximum call stack size exceeded` with webpack setting `optimization.concatenateModules: true`and usage in script imports from `react` and `redux`. 
+- Add test case for single style without a scripts in webpack config.
+- Add silent mode in tests to suppress output log info in the console.
+- The option `ignore` can be the array of string or RegExp. Add default value of `ignore` as `['/node_modules/']` to ignore resources from `node_modules` path. 
+- Update npm packages.
+
 ## 0.6.3 (Oct 25, 2020)
 Fix BREAKING CHANGE in Webpack 5: No more changes should happen to `Compilation.assets`. Update code accord new API.
 

@@ -34,7 +34,7 @@ module.exports = {
     },
   },
   plugins: [
-    new WebpackRemoveEmptyScripts(),
+    new WebpackRemoveEmptyScripts({ silent: true }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),

@@ -9,6 +9,10 @@ const { merge } = require("webpack-merge");
 const modes = ["development", "production"];
 const cases = fs.readdirSync(path.join(__dirname, "cases"));
 
+// if not empty, then test only this cases
+const testOnly = [
+];
+
 beforeAll(() => {
   rimraf.sync(path.join(__dirname, "outputs"));
 });
@@ -19,11 +23,16 @@ beforeEach(() => {
 
 describe("Webpack Integration Tests", () => {
   cases.forEach(testCase => {
+    if (testOnly.length > 0 && testOnly.indexOf(testCase) < 0) {
+      return;
+    }
+
     modes.forEach(mode => {
       it(testCase + " [" + mode + "]", done => {
         const testDirectory = path.join(__dirname, "cases", testCase);
         const outputDirectory = path.join(__dirname, "outputs", testCase, mode);
         const configFile = path.join(testDirectory, "webpack.config.js");
+
         if (!fs.existsSync(configFile)) {
           return done("no config file for test: " + testCase);
         }
