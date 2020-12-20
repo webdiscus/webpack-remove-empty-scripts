@@ -5,105 +5,129 @@
 const NAME = 'webpack-remove-empty-scripts';
 
 const defaultOptions = {
-  extensions: ['css', 'scss', 'sass', 'less', 'styl'],
-  scriptExtensions: ['js', 'mjs'],
-  silent: false,
-  ignore: undefined,
+    extensions: ['css', 'scss', 'sass', 'less', 'styl'],
+    scriptExtensions: ['js', 'mjs'],
+    silent: false,
+    ignore: [
+        '/node_modules/'
+    ],
 };
 
 class WebpackRemoveEmptyScriptsPlugin {
-  constructor(options) {
-    this.apply = this.apply.bind(this);
-    this.options = Object.assign({}, defaultOptions, options);
-  }
+    constructor(options) {
+        this.apply = this.apply.bind(this);
+        this.options = Object.assign({}, defaultOptions, options);
+        this.options.ignore = defaultOptions.ignore;
 
-  apply(compiler) {
-    const extensionsWithoutDots = this.options.extensions.map(e =>
-        e[0] === '.' ? e.substring(1) : e
-    );
+        // default ignore resource plus customer ignores
+        if (options && options.hasOwnProperty('ignore')) {
+            let optionIgnore = Array.isArray(options.ignore)
+                ? options.ignore
+                : [options.ignore];
 
-    const patternOneOfExtensions = extensionsWithoutDots
-        .map(ext => escapeRegExp(ext))
-        .join('|');
-
-    const reStylesResource = new RegExp(
-        `[.](${patternOneOfExtensions})([?].*)?$`
-    );
-
-    compiler.hooks.compilation.tap(NAME, compilation => {
-      const resourcesCache = [];
-
-      compilation.hooks.chunkAsset.tap(NAME, (chunk, file) => {
-        const isNotScript = defaultOptions.scriptExtensions.every((ext) => file.lastIndexOf('.' + ext) < 0);
-        if (isNotScript) return;
-
-        // has entry modules
-        if (compilation.chunkGraph.getNumberOfEntryModules(chunk) < 1) return;
-        const entryModules = Array.from(compilation.chunkGraph.getChunkEntryModulesIterable(chunk));
-        if (entryModules.length < 1) return;
-
-        const entryModule = entryModules[0];
-        const entryResources = collectEntryResources(compilation, entryModule, resourcesCache);
-
-        const resources = this.options.ignore
-            ? entryResources.filter(res => !res.match(this.options.ignore))
-            : entryResources;
-
-        const isStyleOnly =
-            resources.length &&
-            resources.every(resource => reStylesResource.test(resource));
-
-        if (isStyleOnly) {
-          if (!this.options.silent) {
-            console.log('[remove-empty-scripts] remove empty js from style only entry: ' + file);
-          }
-          
-          chunk.files.delete(file);
-          compilation.deleteAsset(file);
+            this.options.ignore = this.options.ignore.concat(optionIgnore);
         }
-      });
-    });
-  }
+    }
+
+    apply(compiler) {
+        const customIgnore = this.options.ignore;
+
+        const extensionsWithoutDots = this.options.extensions.map(e =>
+            e[0] === '.' ? e.substring(1) : e
+        );
+
+        const patternOneOfExtensions = extensionsWithoutDots
+            .map(ext => escapeRegExp(ext))
+            .join('|');
+
+        const reStylesResource = new RegExp(
+            `[.](${patternOneOfExtensions})([?].*)?$`
+        );
+
+        compiler.hooks.compilation.tap(NAME, compilation => {
+            const resourcesCache = [];
+
+            compilation.hooks.chunkAsset.tap(NAME, (chunk, file) => {
+                const isNotScript = defaultOptions.scriptExtensions.every((ext) => file.lastIndexOf('.' + ext) < 0);
+                if (isNotScript) return;
+
+                // has entry modules
+                if (compilation.chunkGraph.getNumberOfEntryModules(chunk) < 1) return;
+                const entryModules = Array.from(compilation.chunkGraph.getChunkEntryModulesIterable(chunk));
+                if (entryModules.length < 1) return;
+
+                const entryModule = entryModules[0];
+                const entryResources = collectEntryResources(compilation, entryModule, resourcesCache);
+
+                const resources = customIgnore.length > 0
+                    ? entryResources.filter(res => customIgnore.every(ignore => !res.match(ignore)))
+                    : entryResources;
+
+                const isStyleOnly =
+                    resources.length &&
+                    resources.every(resource => reStylesResource.test(resource));
+
+                if (isStyleOnly) {
+                    if (!this.options.silent) {
+                        console.log('[remove-empty-scripts] remove empty js from style only entry: ' + file);
+                    }
+
+                    chunk.files.delete(file);
+                    compilation.deleteAsset(file);
+                }
+            });
+        });
+    }
 }
 
 function collectEntryResources(compilation, module, cache) {
-  const index = compilation.moduleGraph.getPreOrderIndex(module),
-      resources = [];
+    const index = compilation.moduleGraph.getPreOrderIndex(module),
+        resources = [];
 
-  // index of module is unique per compilation
-  // module.id can be null, not used here
-  if (cache[index] !== undefined) {
+    // the index can be null
+    if (index == null) {
+        return resources;
+    }
 
-    return cache[index];
-  }
+    // index of module is unique per compilation
+    // module.id can be null, not used here
+    if (cache[index] !== undefined) {
+        return cache[index];
+    }
 
-  if (typeof module.resource == 'string') {
-    const resources = [module.resource];
-    cache[index] = resources;
+    if (typeof module.resource === 'string') {
+        const resources = [module.resource];
+        cache[index] = resources;
+
+        return resources;
+    }
+
+    if (module.dependencies) {
+        module.dependencies.forEach(dep => {
+            if (dep) {
+                const module = compilation.moduleGraph.getModule(dep),
+                    originModule = compilation.moduleGraph.getParentModule(dep),
+                    nextModule = module || originModule;
+
+                if (nextModule && (!dep.hasOwnProperty('decorator') || dep['decorator'].indexOf('__webpack_require__') < 0)) {
+                    const depResources = collectEntryResources(compilation, nextModule, cache);
+
+                    for (let i = 0, length = depResources.length; i !== length; i++) {
+                        let depFile = depResources[i];
+                        if (resources.indexOf(depFile) < 0) {
+                          resources.push(depFile);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    if (resources.length > 0) {
+        cache[index] = resources;
+    }
 
     return resources;
-  }
-
-  if (module.dependencies) {
-    module.dependencies.forEach(dep => {
-      if(dep) {
-        const module = compilation.moduleGraph.getModule(dep),
-            originModule = compilation.moduleGraph.getParentModule(dep),
-            nextModule = module || originModule;
-
-        if (nextModule) {
-          const depResources = collectEntryResources(compilation, nextModule, cache);
-
-          for (let index = 0, length = depResources.length; index !== length; index++) {
-            resources.push(depResources[index]);
-          }
-        }
-      }
-    });
-  }
-  cache[index] = resources;
-
-  return resources;
 }
 
 // https://github.com/lodash/lodash/blob/4.17.11/lodash.js#L14274
@@ -111,11 +135,11 @@ const reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 const reHasRegExpChar = RegExp(reRegExpChar.source);
 
 function escapeRegExp(string) {
-  string = String(string);
+    string = String(string);
 
-  return string && reHasRegExpChar.test(string)
-      ? string.replace(reRegExpChar, '\\$&')
-      : string;
+    return string && reHasRegExpChar.test(string)
+        ? string.replace(reRegExpChar, '\\$&')
+        : string;
 }
 
 module.exports = WebpackRemoveEmptyScriptsPlugin;

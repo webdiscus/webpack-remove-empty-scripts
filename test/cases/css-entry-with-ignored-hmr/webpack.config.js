@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const middlewareScript =
   "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&name=";
+
 module.exports = {
   entry: {
     script: ["./script.js", middlewareScript + "script"],
@@ -19,7 +20,8 @@ module.exports = {
     ],
   },
   plugins: [
-    new WebpackRemoveEmptyScripts({ ignore: "webpack-hot-middleware" }),
+    //new WebpackRemoveEmptyScripts({ silent: true, ignore: "webpack-hot-middleware" }),
+    new WebpackRemoveEmptyScripts({ silent: true, ignore: "webpack-hot-middleware-qq" }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),

@@ -6,6 +6,6 @@ module.exports = {
     filename: "[name].mjs",
   },
   plugins: [
-    new WebpackRemoveEmptyScripts()
+    new WebpackRemoveEmptyScripts({ silent: true })
   ],
 };
