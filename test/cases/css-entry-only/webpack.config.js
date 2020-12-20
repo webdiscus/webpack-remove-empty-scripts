@@ -3,7 +3,7 @@ const WebpackRemoveEmptyScripts = require("../../../index.js");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: { script: "./script.js", style: "./style.css" },
+  entry: { style: "./style.css" },
   module: {
     rules: [
       {
