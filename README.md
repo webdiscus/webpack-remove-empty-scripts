@@ -56,9 +56,9 @@ module.exports = {
  
 | Name       | Type             | Default                                 | Description |
 |------------|------------------|-----------------------------------------|-------------|
-| extensions | Array[string]    | ['css', 'scss', 'sass', 'less', 'styl'] | file extensions for styles      |
 | silent     | boolean          | false                                   | supress logs to console         |
-| ignore     | string or RegExp | undefined                               | match resource to be ignored    |
+| extensions | Array[string]    | ['css', 'scss', 'sass', 'less', 'styl'] | file extensions for styles      |
+| ignore     | string or RegExp or Array[string] or Array[RegExp] | ['/node_modules/'] | match resource path to be ignored, defaults the resources from `node_modules` are ignored|
 
 ### Example config:
 ```JavaScript
@@ -74,7 +74,7 @@ new RemoveEmptyScriptsPlugin({ extensions:['foo', 'bar'] })
 ## Recipes
 
 ### I use a javascript entry to styles:
-Give an especial extension to your file (`.css.js` for example) and configure `new RemoveEmptyScriptsPlugin({ extensions:['css.js'] })`. See: https://github.com/fqborges/webpack-fix-style-only-entries/issues/8.
+Give an especial extension to your file (`.css.js` for example) and configure `new RemoveEmptyScriptsPlugin({ extensions:['css.js'] })`.
 
 ### I use webpack-hot-middleware:
-Configure this plugin as `new RemoveEmptyScriptsPlugin({ ignore: 'webpack-hot-middleware' })`. See: https://github.com/fqborges/webpack-fix-style-only-entries/issues/12 and https://github.com/fqborges/webpack-fix-style-only-entries/blob/master/test/cases/css-entry-with-ignored-hmr/webpack.config.js.
+Configure this plugin as `new RemoveEmptyScriptsPlugin({ ignore: 'webpack-hot-middleware' })`. See: https://github.com/webdiscus/webpack-remove-empty-scripts/blob/master/test/cases/css-entry-with-ignored-hmr/webpack.config.js
