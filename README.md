@@ -56,14 +56,14 @@ module.exports = {
  
 | Name       | Type             | Default                                 | Description |
 |------------|------------------|-----------------------------------------|-------------|
-| silent     | boolean          | false                                   | supress logs to console         |
-| extensions | Array[string]    | ['css', 'scss', 'sass', 'less', 'styl'] | file extensions for styles      |
-| ignore     | string or RegExp or Array[string] or Array[RegExp] | ['/node_modules/'] | match resource path to be ignored, defaults the resources from `node_modules` are ignored|
+| verbose    | boolean          | false                                   | show logs to console |
+| extensions | Array[string]    | ['css', 'scss', 'sass', 'less', 'styl'] | file extensions for styles |
+| ignore     | string or RegExp or Array[string] or Array[RegExp] | | match resource path to be ignored |
 
 ### Example config:
 ```JavaScript
-// supress logs to console, use it for production
-new RemoveEmptyScriptsPlugin({ silent: true })
+// show logs to console, use it for development
+new RemoveEmptyScriptsPlugin({ verbose: true })
 ```
 
 ```JavaScript

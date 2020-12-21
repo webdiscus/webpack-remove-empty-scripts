@@ -20,8 +20,7 @@ module.exports = {
     ],
   },
   plugins: [
-    //new WebpackRemoveEmptyScripts({ silent: true, ignore: "webpack-hot-middleware" }),
-    new WebpackRemoveEmptyScripts({ silent: true, ignore: "webpack-hot-middleware-qq" }),
+    new WebpackRemoveEmptyScripts({ ignore: "webpack-hot-middleware" }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),
