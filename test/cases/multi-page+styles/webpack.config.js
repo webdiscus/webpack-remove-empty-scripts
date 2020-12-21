@@ -29,7 +29,7 @@ module.exports = {
     },
   },
   plugins: [
-    new WebpackRemoveEmptyScripts({ silent: true }),
+    new WebpackRemoveEmptyScripts(),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),

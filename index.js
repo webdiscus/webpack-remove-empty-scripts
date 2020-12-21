@@ -5,27 +5,30 @@
 const NAME = 'webpack-remove-empty-scripts';
 
 const defaultOptions = {
+    verbose: false,
     extensions: ['css', 'scss', 'sass', 'less', 'styl'],
     scriptExtensions: ['js', 'mjs'],
-    silent: false,
-    ignore: [
-        '/node_modules/'
-    ],
+    ignore: [],
 };
+
+// Save last dependency to compare it with dependency of next module
+// to avoid the infinite recursion by collect of resources.
+let lastDependency = '';
 
 class WebpackRemoveEmptyScriptsPlugin {
     constructor(options) {
         this.apply = this.apply.bind(this);
         this.options = Object.assign({}, defaultOptions, options);
-        this.options.ignore = defaultOptions.ignore;
 
-        // default ignore resource plus customer ignores
-        if (options && options.hasOwnProperty('ignore')) {
-            let optionIgnore = Array.isArray(options.ignore)
-                ? options.ignore
-                : [options.ignore];
+        // Deprecation of option `silent`.
+        if (options && options.hasOwnProperty('silent')) {
+            this.options.verbose = !options.silent;
+            console.warn('[DEPRECATION] the `silent` option is deprecated and will be removed on Juni 30, 2021. Use option `verbose: true` to show in console each removed empty file. Defaults, `verbose: false`.')
+        }
 
-            this.options.ignore = this.options.ignore.concat(optionIgnore);
+        // if by assigned option the `ignore` was not array, then set as array
+        if (!Array.isArray(this.options.ignore)) {
+            this.options.ignore = [this.options.ignore];
         }
     }
 
@@ -51,13 +54,20 @@ class WebpackRemoveEmptyScriptsPlugin {
                 const isNotScript = defaultOptions.scriptExtensions.every((ext) => file.lastIndexOf('.' + ext) < 0);
                 if (isNotScript) return;
 
-                // has entry modules
-                if (compilation.chunkGraph.getNumberOfEntryModules(chunk) < 1) return;
-                const entryModules = Array.from(compilation.chunkGraph.getChunkEntryModulesIterable(chunk));
-                if (entryModules.length < 1) return;
+                const chunkGraph = compilation.chunkGraph;
+                let entryResources = [];
 
-                const entryModule = entryModules[0];
-                const entryResources = collectEntryResources(compilation, entryModule, resourcesCache);
+                for (const module of chunkGraph.getChunkEntryModulesIterable(chunk)) {
+                    if (!compilation.modules.has(module)) {
+                        throw new Error(
+                            "checkConstraints: entry module in chunk but not in compilation " +
+                            ` ${chunk.debugId} ${module.debugId}`
+                        );
+                    }
+
+                    const moduleResources = collectEntryResources(compilation, module, resourcesCache);
+                    entryResources = entryResources.concat(moduleResources);
+                }
 
                 const resources = customIgnore.length > 0
                     ? entryResources.filter(res => customIgnore.every(ignore => !res.match(ignore)))
@@ -68,8 +78,8 @@ class WebpackRemoveEmptyScriptsPlugin {
                     resources.every(resource => reStylesResource.test(resource));
 
                 if (isStyleOnly) {
-                    if (!this.options.silent) {
-                        console.log('[remove-empty-scripts] remove empty js from style only entry: ' + file);
+                    if (this.options.verbose) {
+                        console.log('[remove-empty-scripts] remove empty js file: ' + file);
                     }
 
                     chunk.files.delete(file);
@@ -81,7 +91,8 @@ class WebpackRemoveEmptyScriptsPlugin {
 }
 
 function collectEntryResources(compilation, module, cache) {
-    const index = compilation.moduleGraph.getPreOrderIndex(module),
+    const moduleGraph = compilation.moduleGraph;
+    const index = moduleGraph.getPreOrderIndex(module),
         resources = [];
 
     // the index can be null
@@ -103,20 +114,21 @@ function collectEntryResources(compilation, module, cache) {
     }
 
     if (module.dependencies) {
-        module.dependencies.forEach(dep => {
-            if (dep) {
-                const module = compilation.moduleGraph.getModule(dep),
-                    originModule = compilation.moduleGraph.getParentModule(dep),
-                    nextModule = module || originModule;
+        module.dependencies.forEach(dependency => {
+            let module = moduleGraph.getModule(dependency),
+                originModule = moduleGraph.getParentModule(dependency),
+                nextModule = module || originModule,
+                useNextModule = JSON.stringify(dependency) !== lastDependency;
 
-                if (nextModule && (!dep.hasOwnProperty('decorator') || dep['decorator'].indexOf('__webpack_require__') < 0)) {
-                    const depResources = collectEntryResources(compilation, nextModule, cache);
+            lastDependency = JSON.stringify(dependency);
 
-                    for (let i = 0, length = depResources.length; i !== length; i++) {
-                        let depFile = depResources[i];
-                        if (resources.indexOf(depFile) < 0) {
-                          resources.push(depFile);
-                        }
+            if (nextModule && useNextModule) {
+                const dependencyResources = collectEntryResources(compilation, nextModule, cache);
+
+                for (let i = 0, length = dependencyResources.length; i !== length; i++) {
+                    const file = dependencyResources[i];
+                    if (resources.indexOf(file) < 0) {
+                        resources.push(file);
                     }
                 }
             }
@@ -130,7 +142,6 @@ function collectEntryResources(compilation, module, cache) {
     return resources;
 }
 
-// https://github.com/lodash/lodash/blob/4.17.11/lodash.js#L14274
 const reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 const reHasRegExpChar = RegExp(reRegExpChar.source);
 

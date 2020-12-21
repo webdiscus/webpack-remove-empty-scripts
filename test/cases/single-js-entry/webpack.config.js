@@ -2,5 +2,5 @@ const WebpackRemoveEmptyScripts = require("../../../index.js");
 
 module.exports = {
   entry: "./index",
-  plugins: [new WebpackRemoveEmptyScripts({ silent: true })],
+  plugins: [new WebpackRemoveEmptyScripts()],
 };
