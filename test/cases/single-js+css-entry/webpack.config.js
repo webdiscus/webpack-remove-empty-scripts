@@ -3,7 +3,8 @@ const WebpackRemoveEmptyScripts = require("../../../index.js");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: ["./index.js", "./index.css"],
+  // Note: very important for test use at 0 position a css file and at 1 position a js file.
+  entry: ["./index.css", "./index.js"],
   module: {
     rules: [
       {
@@ -13,7 +14,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new WebpackRemoveEmptyScripts({ silent: true }),
+    new WebpackRemoveEmptyScripts({verbose: true}),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),

@@ -1,10 +1,9 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
 const RemoveEmptyScriptsPlugin = require("../../index.js")
 
 const entries = {
-  app: path.join(__dirname, 'src/react-app.js')
+  'react-app': path.join(__dirname, 'src/react-app.js'),
 }
 
 module.exports = (env = {}, argv = {}) => {
@@ -21,8 +20,8 @@ module.exports = (env = {}, argv = {}) => {
       preset: 'minimal',
     },
     output: {
-      path: path.resolve(__dirname, 'build/_assets'),
-      publicPath: '/_assets/',
+      path: path.resolve(__dirname, 'build/assets'),
+      publicPath: '/assets/',
       filename: `${filename}.js`,
     },
     plugins: [
@@ -45,7 +44,7 @@ module.exports = (env = {}, argv = {}) => {
       ],
     },
     optimization: {
-      //concatenateModules: true,
-    }
+      concatenateModules: true,
+    },
   };
 };

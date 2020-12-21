@@ -2,7 +2,8 @@ const WebpackRemoveEmptyScripts = require("../../../index.js");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const baseConfig = {
+module.exports = {
+  entry: { script: "./script.js", style: "./style.css" },
   module: {
     rules: [
       {
@@ -17,15 +18,11 @@ const baseConfig = {
       filename: "[name].css",
     }),
   ],
-};
+  optimization: {
+    concatenateModules: true,
+  },
 
-module.exports = [
-  {
-    entry: { scriptA: "./script.js", styleA: "./style.css" },
-    ...baseConfig,
-  },
-  {
-    entry: { styleB: "./style.css", scriptB: "./script.js" },
-    ...baseConfig,
-  },
-];
+  externals: {
+    jquery: 'jQuery',
+  }
+};

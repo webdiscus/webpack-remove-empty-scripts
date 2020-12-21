@@ -13,7 +13,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new WebpackRemoveEmptyScripts({ silent: true, extensions: ["foo", "bar"] }),
+    new WebpackRemoveEmptyScripts({ extensions: ["foo", "bar"] }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),

@@ -1,3 +1,14 @@
+## 0.7.0 (Dec 21, 2020)
+### Breaking change
+- The `silent` option is deprecated and will be removed on Juni 30, 2021. Use option `verbose: true` to show in console each removed empty file. Defaults, `verbose: false`.
+ 
+### Bugfixes
+- The issue `Maximum call stack size exceeded` was general fixed in all cases, for example, by usage the webpack setting `optimization.concatenateModules: true` and:
+  - import react
+  - import redux
+  - webpack setting `externals.jquery: 'jQuery'` or other external libs
+- The issue if first in webpack entries are a styles and then a scripts.
+
 ## 0.6.4 (Dec 19, 2020)
 - Bugfix the error: `Maximum call stack size exceeded` with webpack setting `optimization.concatenateModules: true`and usage in script imports from `react` and `redux`. 
 - Add test case for single style without a scripts in webpack config.
