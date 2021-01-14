@@ -11,9 +11,9 @@ const defaultOptions = {
     ignore: [],
 };
 
-// Save last dependency to compare it with dependency of next module
+// Save unique id in dependency object as marker of 'analysed module'
 // to avoid the infinite recursion by collect of resources.
-let lastDependency = '';
+let dependencyId = 1;
 
 class WebpackRemoveEmptyScriptsPlugin {
     constructor(options) {
@@ -91,8 +91,9 @@ class WebpackRemoveEmptyScriptsPlugin {
 }
 
 function collectEntryResources(compilation, module, cache) {
-    const moduleGraph = compilation.moduleGraph;
-    const index = moduleGraph.getPreOrderIndex(module),
+    const moduleGraph = compilation.moduleGraph,
+        index = moduleGraph.getPreOrderIndex(module),
+        propNameDependencyId = '__dependencyWebpackRemoveEmptyScriptsUniqueId',
         resources = [];
 
     // the index can be null
@@ -115,12 +116,19 @@ function collectEntryResources(compilation, module, cache) {
 
     if (module.dependencies) {
         module.dependencies.forEach(dependency => {
+
             let module = moduleGraph.getModule(dependency),
                 originModule = moduleGraph.getParentModule(dependency),
                 nextModule = module || originModule,
-                useNextModule = JSON.stringify(dependency) !== lastDependency;
+                useNextModule = false;
 
-            lastDependency = JSON.stringify(dependency);
+            if (!dependency.hasOwnProperty(propNameDependencyId)) {
+                dependency[propNameDependencyId] = dependencyId++;
+                useNextModule = true;
+            }
+
+            // debug info
+            //console.log('::: module ::: ', useNextModule ? '' : '-----', dependency[propNameDependencyId]);
 
             if (nextModule && useNextModule) {
                 const dependencyResources = collectEntryResources(compilation, nextModule, cache);

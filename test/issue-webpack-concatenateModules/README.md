@@ -14,7 +14,7 @@ where not exist a `name` or a `require`:
 
 If occur like it structure, then not analyse for a resource, skip it.
 
-### Manual test (issure is fixed)
+### Manual test (issue is fixed)
 
 Initial, run `npm install` to install dependencies.
 
