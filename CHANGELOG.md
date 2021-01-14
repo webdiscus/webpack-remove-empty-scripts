@@ -1,7 +1,11 @@
+## 0.7.1 (Jan 14, 2021)
+### Bugfixes
+- The issue infinite recursion by collect of resources from dependency modules by usage in react app some big components with many thousands dependencies.
+
 ## 0.7.0 (Dec 21, 2020)
 ### Breaking change
 - The `silent` option is deprecated and will be removed on Juni 30, 2021. Use option `verbose: true` to show in console each removed empty file. Defaults, `verbose: false`.
- 
+
 ### Bugfixes
 - The issue `Maximum call stack size exceeded` was general fixed in all cases, for example, by usage the webpack setting `optimization.concatenateModules: true` and:
   - import react
