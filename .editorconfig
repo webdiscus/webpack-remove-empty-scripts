@@ -1,0 +1,10 @@
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+[test/cases/**.html]
+end_of_line = lf
+# disable final new line for expected html files
+insert_final_newline = false

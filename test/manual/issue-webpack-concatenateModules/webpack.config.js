@@ -1,10 +1,10 @@
-const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const RemoveEmptyScriptsPlugin = require("../../index.js")
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const RemoveEmptyScriptsPlugin = require('../../../');
 
 const entries = {
   'react-app': path.join(__dirname, 'src/react-app.js'),
-}
+};
 
 module.exports = (env = {}, argv = {}) => {
   const isDev = argv.mode !== 'production';
@@ -39,7 +39,7 @@ module.exports = (env = {}, argv = {}) => {
         },
         {
           test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, "css-loader"],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
       ],
     },

@@ -1,1 +1,6 @@
-["apage.js", "bpage.js", "styles.css"]
+[
+  "apage.js",
+  "bpage-other.js",
+  "about.js",
+  "styles.css"
+]

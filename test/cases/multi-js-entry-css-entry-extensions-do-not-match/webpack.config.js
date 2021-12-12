@@ -1,21 +1,24 @@
-const WebpackRemoveEmptyScripts = require("../../../index.js");
+const WebpackRemoveEmptyScripts = require('../../../src/index.js');
 
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: { script: "./script.js", style: "./style.css" },
+  entry: { script: './script.js', style: './style.css' },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
   },
   plugins: [
-    new WebpackRemoveEmptyScripts({ extensions: ["foo", "bar"] }),
+    new WebpackRemoveEmptyScripts({
+      extensions: ['foo', 'bar'],
+      //extensionsTest: /\.(foo|bar)$/,
+    }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
+      filename: '[name].css',
     }),
   ],
 };

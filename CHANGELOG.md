@@ -1,4 +1,10 @@
-## 0.7.1 (Jan 14, 2021)
+## 0.8.0 (Dec 12, 2021) The new experimental version
+- NEW improved ad fast algorithm to detect generated needless empty js files (experimental)
+- add new option `enable` to enable / disable the plugin
+- add support of `RegExp` for option `extensions`
+- remove deprecated option `silent`, use `verbose` to show process information (no braking change)
+
+## 0.7.1 (Jan 14, 2021) The last stable version
 ### Bugfixes
 - The issue infinite recursion by collect of resources from dependency modules by usage in react app some big components with many thousands dependencies.
 

@@ -12,7 +12,7 @@ module.exports = {
   // browser: false,
 
   // The directory where Jest should store its cached dependency information
-  // cacheDirectory: "C:\\Users\\fqborges\\AppData\\Local\\Temp\\jest",
+  // cacheDirectory: "/tmp/jest",
 
   // Automatically clear mock calls and instances between every test
   // clearMocks: false,
@@ -21,32 +21,49 @@ module.exports = {
   // collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  // collectCoverageFrom: null,
+  // collectCoverageFrom: ['src/**/*.js'],
 
   // The directory where Jest should output its coverage files
   // coverageDirectory: null,
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  coveragePathIgnorePatterns: ['/node_modules/', './utils/'],
+
+  // Indicates which provider should be used to instrument code for coverage.
+  // Allowed values are babel (default) or v8.
+  // coverageProvider: 'babel',
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
-  //   "json",
-  //   "text",
-  //   "lcov",
   //   "clover"
+  //   "json",
+  //   "lcov",
+  //   "text",
   // ],
 
-  // An object that configures minimum threshold enforcement for coverage results
+  // An object that configures minimum threshold enforcement for coverage results.
   // coverageThreshold: null,
+
+  // This option allows the use of a custom dependency extractor.
+  // dependencyExtractor: null,
+
+  // Allows for a label to be printed alongside a test while it is running.
+  // displayName: null,
 
   // Make calling deprecated APIs throw helpful error messages
   // errorOnDeprecated: false,
 
-  // Force coverage collection from ignored files usin a array of glob patterns
+  // Specify file extensions here that should run with native ESM.
+  // extensionsToTreatAsEsm: [],
+
+  // Specify extra properties to be defined inside a vm for faster lookups.
+  // extraGlobals: null,
+
+  // Force coverage collection from ignored files using a array of glob patterns
   // forceCoverageMatch: [],
+
+  // A set of global variables that need to be available in all test environments
+  // globals: {},
 
   // A path to a module which exports an async function that is triggered once before all test suites
   // globalSetup: null,
@@ -54,8 +71,18 @@ module.exports = {
   // A path to a module which exports an async function that is triggered once after all test suites
   // globalTeardown: null,
 
-  // A set of global variables that need to be available in all test environments
-  // globals: {},
+  // This will be used to configure the behavior of jest-haste-map, Jest's internal file crawler/cache system.
+  // haste: null,
+
+  // Insert Jest's globals (expect, test, describe, beforeEach etc.) into the global environment.
+  injectGlobals: true,
+
+  // A number limiting the number of tests that are allowed to run at the same time when using test.concurrent.
+  // maxConcurrency: 5,
+
+  // Specifies the maximum number of workers the worker-pool will spawn for running tests.
+  // In single run mode, this defaults to the number of the cores available on your machine minus one for the main thread.
+  // maxWorkers: '50%',
 
   // An array of directory names to be searched recursively up from the requiring module's location
   // moduleDirectories: [
@@ -65,8 +92,10 @@ module.exports = {
   // An array of file extensions your modules use
   // moduleFileExtensions: [
   //   "js",
-  //   "json",
   //   "jsx",
+  //   "ts",
+  //   "tsx",
+  //   "json",
   //   "node"
   // ],
 
@@ -76,14 +105,20 @@ module.exports = {
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
 
+  // An alternative API to setting the NODE_PATH env variable, modulePaths is an array of absolute paths to additional locations to search when resolving modules.
+  // modulePaths: [],
+
   // Activates notifications for test results
   // notify: false,
 
   // An enum that specifies notification mode. Requires { notify: true }
-  // notifyMode: "always",
+  // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
   // preset: null,
+
+  // Sets the path to the prettier node module used to update inline snapshots.
+  // prettierPath: 'prettier',
 
   // Run tests from one or more projects
   // projects: null,
@@ -103,7 +138,8 @@ module.exports = {
   // Automatically restore mock state between every test
   // restoreMocks: false,
 
-  // The root directory that Jest should scan for tests and modules within
+  // The root directory that Jest should scan for tests and modules within.
+  // Default: The root of the directory containing your Jest config file or the package.json or the pwd if no package.json is found.
   // rootDir: null,
 
   // A list of paths to directories that Jest should use to search for files in
@@ -117,40 +153,55 @@ module.exports = {
   // The paths to modules that run some code to configure or set up the testing environment before each test
   // setupFiles: [],
 
-  // The path to a module that runs some code to configure or set up the testing framework before each test
-  // setupTestFrameworkScriptFile: null,
+  // A list of paths to modules that run some code to configure or set up the testing framework before each test file in the suite is executed.
+  // setupFilesAfterEnv: [],
+
+  // The number of seconds after which a test is considered as slow and reported as such in the results.
+  // slowTestThreshold: 5,
+
+  // Allows overriding specific snapshot formatting options documented in the pretty-format readme.
+  // snapshotFormat: null,
+
+  // The path to a module that can resolve test<->snapshot path. This config option lets you customize where Jest stores snapshot files on disk.
+  // snapshotResolver: null,
 
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "node",
+  testEnvironment: 'node',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
 
-  // Adds a location field to test results
-  // testLocationInResults: false,
+  // The exit code Jest returns on test failure.
+  // testFailureExitCode: 1,
 
   // The glob patterns Jest uses to detect test files
   // testMatch: [
-  //   "**/__tests__/**/*.js?(x)",
-  //   "**/?(*.)+(spec|test).js?(x)"
+  //   "**/__tests__/**/*.[jt]s?(x)",
+  //   "**/?(*.)+(spec|test).[jt]s?(x)",
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
+  //   "/node_modules/"
   // ],
 
   // The regexp pattern Jest uses to detect test files
-  // testRegex: "",
+  // testRegex: /(\/__tests__\/.*|(\\.|\/)(test|spec))\\.[jt]sx?$/,
 
   // This option allows the use of a custom results processor
   // testResultsProcessor: null,
 
   // This option allows use of a custom test runner
-  // testRunner: "jasmine2",
+  // testRunner: "jest-circus/runner",
+
+  // This option allows you to use a custom sequencer instead of Jest's default. sort may optionally return a Promise.
+  // testSequencer: '@jest/test-sequencer',
+
+  // Default timeout of a test in milliseconds.
+  // testTimeout: 5000,
 
   // This option sets the URL for the jsdom environment. It is reflected in properties such as location.href
   // testURL: "http://localhost",
@@ -159,22 +210,23 @@ module.exports = {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  // transform: null,
+  // transform: {"\\.[jt]sx?$": "babel-jest"},
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  // transformIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  // transformIgnorePatterns: ["/node_modules/", "\\.pnp\\.[^\\\/]+$"],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
-  // unmockedModulePathPatterns: undefined,
+  // unmockedModulePathPatterns: [],
 
   // Indicates whether each individual test should be reported during the run
-  // verbose: null,
+  // verbose: false,
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
   // watchPathIgnorePatterns: [],
 
-  // Whether to use watchman for file crawling
+  // This option allows you to use custom watch plugins.
+  // watchPlugins: [],
+
+  // Whether to use watchman for file crawling.
   // watchman: true,
 };
