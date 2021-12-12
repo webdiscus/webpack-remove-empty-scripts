@@ -1,15 +1,15 @@
-const WebpackRemoveEmptyScripts = require("../../../index.js");
+const WebpackRemoveEmptyScripts = require('../../../src/index.js');
 
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  entry: { script: "./script.js", style: "./style.css" },
+  entry: { script: './script.js', style: './style.css' },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
   },
@@ -23,12 +23,12 @@ module.exports = {
     ],
 
     splitChunks: {
-      chunks: "all",
+      chunks: 'all',
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendor",
-          chunks: "all",
+          name: 'vendor',
+          chunks: 'all',
         },
       },
     },
@@ -36,7 +36,7 @@ module.exports = {
   plugins: [
     new WebpackRemoveEmptyScripts(),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
+      filename: '[name].css',
     }),
   ],
 };

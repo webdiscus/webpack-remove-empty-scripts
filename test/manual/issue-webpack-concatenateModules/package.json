@@ -1,0 +1,28 @@
+{
+  "name": "issue-concatenate-modules",
+  "description": "Reproduce the plugin issue by webpack 'optimization.concatenateModules: true' and imports from 'react' and 'redux'.",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "webpack --mode=production --progress",
+    "build:dev": "webpack --mode=development --progress"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "7.16.0",
+    "@babel/plugin-proposal-class-properties": "7.16.0",
+    "@babel/plugin-proposal-optional-chaining": "7.16.0",
+    "@babel/plugin-transform-runtime": "7.16.4",
+    "@babel/preset-env": "7.16.4",
+    "@babel/preset-react": "7.16.0",
+    "@quasibit/eleventy-plugin-sitemap": "2.1.4",
+    "babel-loader": "8.2.3",
+    "babel-plugin-styled-components": "2.0.2",
+    "core-js": "3.19.3",
+    "css-loader": "6.5.1",
+    "mini-css-extract-plugin": "2.4.5",
+    "react": "17.0.2",
+    "redux": "^4.1.2",
+    "webpack": "5.65.0",
+    "webpack-cli": "4.9.1"
+  }
+}
