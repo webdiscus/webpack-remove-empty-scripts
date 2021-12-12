@@ -1,3 +1,12 @@
+## 0.7.2 (Dec 13, 2021) The last stable version
+- add new option `enable` to enable / disable the plugin, e.g. by development
+- add support of `RegExp` for option `extensions`
+- remove deprecated option `silent`, use `verbose` to show process information (no braking change)
+- add GitHub workflow + codecov
+- color verbose output
+- update packages
+- update readme
+
 ## 0.7.1 (Jan 14, 2021)
 ### Bugfixes
 - The issue infinite recursion by collect of resources from dependency modules by usage in react app some big components with many thousands dependencies.

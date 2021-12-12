@@ -1,4 +1,10 @@
+.DS_Store
 .idea
-build
+_ignored
+package-lock.json
+coverage
+coverage.lcov
 node_modules
-test/outputs
+public
+dist
+test/output/

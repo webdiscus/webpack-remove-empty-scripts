@@ -1,11 +1,11 @@
-const WebpackRemoveEmptyScripts = require("../../../index.js");
+const WebpackRemoveEmptyScripts = require('../../../src/index.js');
 
 module.exports = {
-  entry: "./index.mjs",
+  entry: './index.mjs',
   output: {
-    filename: "[name].mjs",
+    filename: '[name].mjs',
   },
   plugins: [
-    new WebpackRemoveEmptyScripts()
+    new WebpackRemoveEmptyScripts(),
   ],
 };

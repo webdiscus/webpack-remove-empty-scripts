@@ -1,1 +1,6 @@
-["scriptA.js", "styleA.css", "scriptB.js", "styleB.css"]
+[
+  "scriptA.js",
+  "styleA.css",
+  "scriptB.js",
+  "styleB.css"
+]
