@@ -1,4 +1,4 @@
-[![npm version](https://badgen.net/npm/v/webpack-remove-empty-scripts/0.7.2/)](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/0.7.2)
+[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts/latest?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/0.7.3)
 [![node](https://img.shields.io/node/v/webpack-remove-empty-scripts)](https://nodejs.org)
 [![node](https://img.shields.io/github/package-json/dependency-version/webdiscus/webpack-remove-empty-scripts/peer/webpack)](https://webpack.js.org/)
 [![codecov](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts)
@@ -44,7 +44,7 @@ You can find more info by the following issues:
 > Please test your project before using it in production.\
 > If you have a problem with the new version, please create a [new issue](https://github.com/webdiscus/webpack-remove-empty-scripts/issues). 
 
-> :warning: The last stable release is `0.7.2` in the branch [`stable`](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/stable).
+> :warning: The last stable release is `0.7.3` in the branch [`stable`](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/stable).
 
 ## Propose
 If you use the `mini-css-extract-plugin` only to extract `css` files from styles defined in webpack entry 
@@ -192,13 +192,15 @@ new RemoveEmptyScriptsPlugin({
 ## Also See
 
 - more examples of usages see in [test cases](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/master/test/cases)
-- [`pug-plugin`][pug-plugin]
-- [`pug-loader`][pug-loader]
+- [ansis][ansis] - ANSI color styling of text in terminal
+- [pug-plugin][pug-plugin]
+- [pug-loader][pug-loader]
 
 ## License
 [ISC](https://github.com/webdiscus/webpack-remove-empty-scripts/blob/master/LICENSE)
 
 <!-- prettier-ignore-start -->
+[ansis]: https://github.com/webdiscus/ansis
 [pug-plugin]: https://github.com/webdiscus/pug-plugin
 [pug-loader]: https://github.com/webdiscus/pug-loader
 <!-- prettier-ignore-end -->

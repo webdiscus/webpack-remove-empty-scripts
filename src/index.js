@@ -3,7 +3,7 @@
  */
 
 const path = require('path');
-const colstr = require('./color-string');
+const ansis = require('ansis');
 
 const plugin = 'remove-empty-scripts';
 const defaultOptions = {
@@ -55,7 +55,7 @@ class WebpackRemoveEmptyScriptsPlugin {
         for (const module of chunkGraph.getChunkEntryModulesIterable(chunk)) {
           if (!compilation.modules.has(module)) {
             throw new Error(
-              `${plugin} checkConstraints: entry module in chunk but not in compilation ${chunk.debugId} ${module.debugId}`
+              `\n${ansis.black.bgRed(`[${plugin}]`)} entry module in chunk but not in compilation ${chunk.debugId} ${module.debugId}`
             );
           }
 
@@ -74,7 +74,7 @@ class WebpackRemoveEmptyScriptsPlugin {
           if (this.verbose) {
             const outputFile = path.join(outputPath, filename);
             console.log(
-              ` ${colstr.bgYellow(` ${plugin} `, colstr.colors.black)} remove ${colstr.cyan(outputFile)}`,
+              `${ansis.black.bgYellow(`[${plugin}]`)} remove ${ansis.cyan(outputFile)}`,
             );
           }
 

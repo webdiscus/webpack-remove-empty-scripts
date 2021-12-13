@@ -11,6 +11,7 @@ const modes = ['development', 'production'];
 
 // if not empty, then test only this cases
 const testOnly = [
+  //'css-import',
   //'option-extension-array',
   //'option-extension-regexp',
   //'option-ignore-array',
@@ -48,6 +49,7 @@ describe('Webpack Integration Tests', () => {
     if (testOnly.length > 0 && testOnly.indexOf(testCase) < 0) return;
 
     modes.forEach(mode => {
+      jest.setTimeout(10000);
       test(testCase + ' [' + mode + ']', done => {
         const testDirectory = path.join(__dirname, 'cases', testCase);
         const outputDirectory = path.join(__dirname, 'output', testCase, mode);
