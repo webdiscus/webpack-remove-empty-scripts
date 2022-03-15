@@ -1,8 +1,12 @@
-## 0.7.3 (Jan 30, 2022) The last stable version
+## 0.8.0 (2022-04-01) The last stable version
+- added new option `remove` to define custom RegExp for generated assets that must be removed
+- update packages
+
+## 0.7.3 (2022-01-30)
 - added color verbose output via ANSI color library - ansis
 - added the test case for styles imported from javascript 
 
-## 0.7.2 (Dec 13, 2021)
+## 0.7.2 (2021-12-13)
 - added new option `enable` to enable / disable the plugin, e.g. by development
 - added supports of `RegExp` for option `extensions`
 - remove deprecated option `silent`, use `verbose` to show process information (no braking change)
@@ -10,11 +14,11 @@
 - update packages
 - update readme
 
-## 0.7.1 (Jan 14, 2021)
+## 0.7.1 (2021-01-14)
 ### Bugfixes
 - fix the issue infinite recursion by collect of resources from dependency modules by usage in react app some big components with many thousands dependencies
 
-## 0.7.0 (Dec 21, 2020)
+## 0.7.0 (2020-12-21)
 ### Breaking change
 - deprecate the `silent` option, it will be removed on Juni 30, 2021. Use option `verbose: true` to show in console each removed empty file. Defaults, `verbose: false`.
 
@@ -25,7 +29,7 @@
   - webpack setting `externals.jquery: 'jQuery'` or other external libs
 - The issue if first in webpack entries are a styles and then a scripts.
 
-## 0.6.4 (Dec 19, 2020)
+## 0.6.4 (2020-12-19)
 - fix the error: `Maximum call stack size exceeded` with webpack setting `optimization.concatenateModules: true`and usage in script imports from `react` and `redux`
 - added the test case for single style without a scripts in webpack config
 - added silent mode in tests to suppress output log info in the console
@@ -34,14 +38,14 @@
   - added default value of `ignore` as `['/node_modules/']` to ignore resources from `node_modules` path
 - update npm packages.
 
-## 0.6.3 (Oct 25, 2020)
+## 0.6.3 (2020-10-25)
 - fix BREAKING CHANGE in Webpack 5: no more changes should happen to `Compilation.assets`
 - update code accord new API
 
-## 0.6.2 (Oct 24, 2020)
+## 0.6.2 (2020-10-24)
 Update npm packages.
 
-## 0.6.1 (Oct 20, 2020)
+## 0.6.1 (2020-10-20)
 The fork of original [webpack-fix-style-only-entries](https://github.com/fqborges/webpack-fix-style-only-entries) (ver. 0.6.0) for support only Webpack 5 and above. 
 The Webpack 4 is no longer supported.
 

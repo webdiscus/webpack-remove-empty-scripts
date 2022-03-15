@@ -10,8 +10,8 @@ const defaultOptions = {
   enabled: true,
   verbose: false,
   extensions: ['css', 'scss', 'sass', 'less', 'styl'],
-  scriptExtensionsTest: /\.(js|mjs)$/,
   ignore: [],
+  remove: /\.(js|mjs)$/,
 };
 
 // Save unique id in dependency object as marker of 'analysed module'
@@ -40,13 +40,13 @@ class WebpackRemoveEmptyScriptsPlugin {
   apply (compiler) {
     if (!this.enabled) return;
 
-    const { ignore: ignoreEntryResource, extensions: styleExtensionRegexp } = this.options;
+    const { remove: removeAssets, ignore: ignoreEntryResource, extensions: styleExtensionRegexp } = this.options;
 
     compiler.hooks.compilation.tap(plugin, compilation => {
       const resourcesCache = [];
 
       compilation.hooks.chunkAsset.tap(plugin, (chunk, filename) => {
-        if (!defaultOptions.scriptExtensionsTest.test(filename)) return;
+        if (!removeAssets.test(filename)) return;
 
         const outputPath = compiler.options.output.path;
         const chunkGraph = compilation.chunkGraph;

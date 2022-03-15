@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts/latest?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/0.7.3)
+[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts/latest?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/0.8.0)
 [![node](https://img.shields.io/node/v/webpack-remove-empty-scripts)](https://nodejs.org)
 [![node](https://img.shields.io/github/package-json/dependency-version/webdiscus/webpack-remove-empty-scripts/peer/webpack)](https://webpack.js.org/)
 [![codecov](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts)
@@ -40,11 +40,11 @@ You can find more info by the following issues:
  - [mini-css-extract-plugin issue](https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151)
 
 ## NEW
-> The `experimental` version [`0.8.0`](https://github.com/webdiscus/webpack-remove-empty-scripts) has **_new improved and fast algorithm_** to detect generated needless empty js files.\
+> The `experimental` version `^1.x.x` has **_new improved and fast algorithm_** to detect generated needless empty js files.\
 > Please test your project before using it in production.\
 > If you have a problem with the new version, please create a [new issue](https://github.com/webdiscus/webpack-remove-empty-scripts/issues). 
 
-> :warning: The last stable release is `0.7.3` in the branch [`stable`](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/stable).
+> :warning: The last stable release is `0.8.0` in the branch [`master`](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/master).
 
 ## Propose
 If you use the `mini-css-extract-plugin` only to extract `css` files from styles defined in webpack entry 
@@ -129,11 +129,16 @@ Enable / disable the plugin.
 ### `extensions`
 Type: `RegExp` Default: `/\.(css|scss|sass|less|styl)([?].*)?$/` 
 Note: the Regexp should have the query part at end `([?].*)?$` to match assets like `style.css?key=val` <br>
-Type: `string[]` Default: `['css', 'scss', 'sass', 'less', 'styl']`. It is automatically converted to type `RegExp`.
+Type: `string[]` Default: `['css', 'scss', 'sass', 'less', 'styl']`. It is automatically converted to type `RegExp`. \
+Search for empty js files in source files only with these extensions.
 
 ### `ignore`
 Type: `string | RegExp | string[] | RegExp[]` Default: `null`<br>
-Match resource path to be ignored.
+Ignore source files.
+
+### `remove`
+Type: `RegExp` Default: `/\.(js|mjs)$/`<br>
+Remove generated scripts.
 
 ### `verbose`
 Type: `boolean` Default: `false`<br>
@@ -163,6 +168,11 @@ new RemoveEmptyScriptsPlugin({ extensions: /\.(foo|bar)$/ })
 Give an especial extension to your file, for example `.css.js`:
 ```JavaScript
 new RemoveEmptyScriptsPlugin({ extensions: /\.(css.js)$/ })
+```
+
+### Remove generated scripts `*.js` `*.mjs` except `*.rem.js` `*.rem.mjs`
+```JavaScript
+new RemoveEmptyScriptsPlugin({ remove: /(?<!\.rem)\.(js|mjs)$/ })
 ```
 
 ### Recursive ignore all js files from directory, for example `my-workers/`

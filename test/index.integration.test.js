@@ -1,21 +1,23 @@
-import { readDirRecursiveSync } from './utils/file';
-
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 
+import { readDirRecursiveSync } from './utils/file';
+
 //const modes = ['development'];
 const modes = ['development', 'production'];
+const cases = fs.readdirSync(path.join(__dirname, 'cases'));
 
 // if not empty, then test only this cases
 const testOnly = [
-  //'css-import',
   //'option-extension-array',
   //'option-extension-regexp',
   //'option-ignore-array',
   //'option-ignore-string',
+  // 'option-remove',
+  //'css-import',
   //'css-entry-only',
   //'css-entry-with-ignored-hmr',
   //'css-entry-with-query',
@@ -34,7 +36,6 @@ const testOnly = [
   //'webpack-concatenate-modules',
 ];
 
-const cases = fs.readdirSync(path.join(__dirname, 'cases'));
 
 beforeAll(() => {
   rimraf.sync(path.join(__dirname, 'output'));
