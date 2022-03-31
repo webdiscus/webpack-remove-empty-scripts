@@ -46,7 +46,7 @@ class WebpackRemoveEmptyScriptsPlugin {
         },
         (assets) => {
           Object.keys(assets).forEach((filename) => {
-            if (!defaultOptions.scriptExtensionsTest.test(filename)) return;
+            if (!this.options.scriptExtensionsTest.test(filename)) return;
 
             const outputPath = compiler.options.output.path;
             const [, name] = entryNameRegExp.exec(filename);
