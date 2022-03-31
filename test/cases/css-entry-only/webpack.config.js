@@ -1,4 +1,4 @@
-const WebpackRemoveEmptyScripts = require('../../../src/index.js');
+const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -16,7 +16,8 @@ module.exports = {
     ],
   },
   plugins: [
-    new WebpackRemoveEmptyScripts({
+    new RemoveEmptyScriptsPlugin({
+      enabled: true,
       verbose: true,
     }),
     new MiniCssExtractPlugin({

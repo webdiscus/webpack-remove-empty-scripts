@@ -25,7 +25,9 @@ module.exports = (env = {}, argv = {}) => {
       filename: `${filename}.js`,
     },
     plugins: [
-      new RemoveEmptyScriptsPlugin(),
+      new RemoveEmptyScriptsPlugin({
+        verbose: true
+      }),
       new MiniCssExtractPlugin({
         filename: `${filename}.css`,
       }),

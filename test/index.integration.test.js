@@ -12,22 +12,28 @@ const cases = fs.readdirSync(path.join(__dirname, 'cases'));
 
 // if not empty, then test only this cases
 const testOnly = [
-  //'css-entry-only',
-  //'css-entry-with-ignored-hmr',
-  //'css-entry-with-query',
-  //'multi-configuration',
-  //'multi-js-entry-css-entry',
-  //'multi-js-entry-css-entry-extensions-do-not-match',
-  //'multi-js-entry-css-entry-mjs-output-css-output',
-  //'multi-mjs-entry-css-entry',
-  //'multi-page+styles',
-  //'single-js+css-entry',
-  //'single-js+css-entry-mjs+css-output',
-  //'single-js-entry-without-ext',
-  //'single-mjs+css-entry',
-  //'single-mjs-entry',
-  //'vendor+multi-js-entry-css-entry',
-  //'webpack-concatenate-modules',
+  // 'option-extension-array',
+  // 'option-extension-regexp',
+  // 'option-ignore-array',
+  // 'option-ignore-string',
+  // 'option-remove',
+  // 'css-import',
+  // 'css-entry-only',
+  // 'css-entry-with-ignored-hmr',
+  // 'css-entry-with-query',
+  // 'multi-configuration',
+  // 'multi-js-entry-css-entry',
+  // 'multi-js-entry-css-entry-extensions-do-not-match',
+  // 'multi-js-entry-css-entry-mjs-output-css-output',
+  // 'multi-mjs-entry-css-entry',
+  // 'multi-page+styles',
+  // 'single-js+css-entry',
+  // 'single-js+css-entry-mjs+css-output',
+  // 'single-js-entry-without-ext',
+  // 'single-mjs+css-entry',
+  // 'single-mjs-entry',
+  // 'vendor+multi-js-entry-css-entry',
+  // 'webpack-concatenate-modules',
 ];
 
 beforeAll(() => {
@@ -43,6 +49,7 @@ describe('Webpack Integration Tests', () => {
     if (testOnly.length > 0 && testOnly.indexOf(testCase) < 0) return;
 
     modes.forEach(mode => {
+      jest.setTimeout(10000);
       test(testCase + ' [' + mode + ']', done => {
         const testDirectory = path.join(__dirname, 'cases', testCase);
         const outputDirectory = path.join(__dirname, 'output', testCase, mode);

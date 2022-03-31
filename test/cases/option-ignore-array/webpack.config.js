@@ -1,9 +1,15 @@
 const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const middlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&name=';
+
 module.exports = {
-  entry: { script: './script.js', style: './style.css' },
+  entry: {
+    script: ['./script.js', middlewareScript + 'script'],
+    style: ['./style.css', middlewareScript + 'client'],
+  },
   module: {
     rules: [
       {
@@ -14,11 +20,13 @@ module.exports = {
   },
   plugins: [
     new RemoveEmptyScriptsPlugin({
-      //extensions: ['foo', 'bar'],
-      extensions: /\.(foo|bar)$/,
+      ignore: [
+        /.+-hot-middleware\//,
+      ]
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
 };

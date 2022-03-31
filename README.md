@@ -1,4 +1,4 @@
-[![npm version](https://badgen.net/npm/v/webpack-remove-empty-scripts/0.8.0-alpha/)](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/0.8.0-alpha)
+[![npm version](https://badgen.net/npm/v/webpack-remove-empty-scripts/1.0.0-beta.1/)](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/1.0.0-beta.1)
 [![node](https://img.shields.io/node/v/webpack-remove-empty-scripts)](https://nodejs.org)
 [![node](https://img.shields.io/github/package-json/dependency-version/webdiscus/webpack-remove-empty-scripts/peer/webpack)](https://webpack.js.org/)
 [![codecov](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts)
@@ -40,11 +40,11 @@ You can find more info by the following issues:
  - [mini-css-extract-plugin issue](https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151)
 
 ## NEW
-> The `experimental` version `^0.8.0` has **_new improved and fast algorithm_** to detect generated needless empty js files.\
+> The `experimental` version `^1.x.x` has **_new improved and fast algorithm_** to detect generated needless empty js files.\
 > Please test your project before using it in production.\
 > If you have a problem with the new version, please create a [new issue](https://github.com/webdiscus/webpack-remove-empty-scripts/issues). 
 
-> :warning: The last stable release is `0.7.2` in the branch [`stable`](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/stable).
+> :warning: The last stable release is `0.8.0` in the branch [`master`](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/master).
 
 ## Propose
 If you use the `mini-css-extract-plugin` only to extract `css` files from styles defined in webpack entry 
@@ -129,11 +129,16 @@ Enable / disable the plugin.
 ### `extensions`
 Type: `RegExp` Default: `/\.(css|scss|sass|less|styl)([?].*)?$/` 
 Note: the Regexp should have the query part at end `([?].*)?$` to match assets like `style.css?key=val` <br>
-Type: `string[]` Default: `['css', 'scss', 'sass', 'less', 'styl']`. It is automatically converted to type `RegExp`.
+Type: `string[]` Default: `['css', 'scss', 'sass', 'less', 'styl']`. It is automatically converted to type `RegExp`. \
+Search for empty js files in source files only with these extensions.
 
 ### `ignore`
 Type: `string | RegExp | string[] | RegExp[]` Default: `null`<br>
-Match resource path to be ignored.
+Ignore source files.
+
+### `remove`
+Type: `RegExp` Default: `/\.(js|mjs)$/`<br>
+Remove generated scripts.
 
 ### `verbose`
 Type: `boolean` Default: `false`<br>
@@ -165,6 +170,11 @@ Give an especial extension to your file, for example `.css.js`:
 new RemoveEmptyScriptsPlugin({ extensions: /\.(css.js)$/ })
 ```
 
+### Remove generated scripts `*.js` `*.mjs` except `*.rem.js` `*.rem.mjs`
+```JavaScript
+new RemoveEmptyScriptsPlugin({ remove: /(?<!\.rem)\.(js|mjs)$/ })
+```
+
 ### Recursive ignore all js files from directory, for example `my-workers/`
 ```JavaScript
 new RemoveEmptyScriptsPlugin({
@@ -192,13 +202,15 @@ new RemoveEmptyScriptsPlugin({
 ## Also See
 
 - more examples of usages see in [test cases](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/master/test/cases)
-- [`pug-plugin`][pug-plugin]
-- [`pug-loader`][pug-loader]
+- [ansis][ansis] - ANSI color styling of text in terminal
+- [pug-plugin][pug-plugin]
+- [pug-loader][pug-loader]
 
 ## License
 [ISC](https://github.com/webdiscus/webpack-remove-empty-scripts/blob/master/LICENSE)
 
 <!-- prettier-ignore-start -->
+[ansis]: https://github.com/webdiscus/ansis
 [pug-plugin]: https://github.com/webdiscus/pug-plugin
 [pug-loader]: https://github.com/webdiscus/pug-loader
 <!-- prettier-ignore-end -->
