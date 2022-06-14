@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts/latest?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/0.8.0)
+[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts/latest?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/0.8.1)
 [![node](https://img.shields.io/node/v/webpack-remove-empty-scripts)](https://nodejs.org)
 [![node](https://img.shields.io/github/package-json/dependency-version/webdiscus/webpack-remove-empty-scripts/peer/webpack)](https://webpack.js.org/)
 [![codecov](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts)
@@ -39,49 +39,58 @@ You can find more info by the following issues:
  - [extract-text-webpack-plugin issue](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/518)
  - [mini-css-extract-plugin issue](https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151)
 
-## NEW
-> The `experimental` version `^1.x.x` has **_new improved and fast algorithm_** to detect generated needless empty js files.\
-> Please test your project before using it in production.\
-> If you have a problem with the new version, please create a [new issue](https://github.com/webdiscus/webpack-remove-empty-scripts/issues). 
+---
 
-> :warning: The last stable release is `0.8.0` in the branch [`master`](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/master).
+## Usage with Pug
 
-## Propose
-If you use the `mini-css-extract-plugin` only to extract `css` files from styles defined in webpack entry 
-like `scss` `sass` `less` `stylus` then try to use **new entry extract plugin** - [pug-plugin](https://github.com/webdiscus/pug-plugin).
+If you use Pug with this plugin, then you should use the [pug-plugin](https://github.com/webdiscus/pug-plugin).<br>
+Pug plugin enable using Pug files directly in webpack entry.<br>
+Pug plugin extract JavaScript and CSS from sources used in Pug.
 
-The `pug-plugin`:
+> 💡Using `pug-plugin` the entry-point is the Pug template, not a JS file.
 
-- extract HTML and CSS from `pug` `html` `scss` resources defined in `webpack entry`
-- doesn't need any fix plugins like `webpack-remove-empty-scripts`, because it doesn't generate empty `js` files
-- is very flexible and fast
-
-Improve performance with `pug-plugin`. Using the `pug-plugin` for `pug` `html` `scss` etc in the `webpack entry` no longer requires additional plugins such as:
-- [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)
-- [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin)
-- [webpack-remove-empty-scripts](https://github.com/webdiscus/webpack-remove-empty-scripts) (bug fix plugins for `mini-css-extract-plugin`)
-- [pug-loader](https://github.com/webdiscus/pug-loader) (this loader is already included in the `pug-plugin`)
-
-For example, `webpack.config.js`
+Define Pug files in webpack entry:
 ```js
 const PugPlugin = require('pug-plugin');
 module.exports = {
   entry: {
-    'main': 'main.js',
-    'styles': 'styles.scss',
-    'index': 'index.html', // now is possible define HTML file in entry
-    'page01': 'page01.pug', // now is possible define PUG file in entry
-    // ...
+    // all sources of scripts and styles can be used directly in Pug
+    // here should be defined Pug templates only
+    index: './src/views/index.pug',      // output index.html
+    about: './src/views/about/index.pug' // output about.html
+    // ..
   },
   plugins: [
-    new PugPlugin(), // supports zero config using default webpack output options 
-  ]
+    // enable using Pug files in webpack entry
+    new PugPlugin({
+      modules: [
+        // enable extract CSS from source of styles used in Pug
+        PugPlugin.extractCss({
+          // output filename of styles
+          filename: 'assets/css/[name].[contenthash:8].css',
+        }),
+      ],
+    }),
+  ],
   // ...
 };
 ```
-> The plugin can be used not only for `pug` but also for simply extracting `HTML` or `CSS` from  `webpack entry`, independent of pug usage.
+Use source files of styles and scripts directly in Pug:
+```pug
+link(href=require('./styles.scss') rel='stylesheet')
+script(src=require('./main.js'))
+```
+Generated HTML contains hashed CSS and JS output filenames:
+```html
+<link href="/assets/css/styles.05e4dd86.css" rel="stylesheet">
+<script src="/assets/js/main.f4b855d8.js"></script>
+```
 
-For more examples see the [pug-plugin](https://github.com/webdiscus/pug-plugin).
+You don't need anymore to use `html-webpack-plugin` `mini-css-extract-plugin` `webpack-remove-empty-scripts` and `pug-loader`.
+The single `pug-plugin` replaces all most used functions of these plugins and loaders.
+Keep your webpack config clear and clean.
+
+---
 
 ## Install
 ```console
@@ -198,6 +207,15 @@ new RemoveEmptyScriptsPlugin({
 
 `npm run test` will run the unit and integration tests.\
 `npm run test:coverage` will run the tests with coverage.
+
+## New experimental version
+
+> The `experimental` version `^1.x.x` has **_new improved and fast algorithm_** to detect generated needless empty js files.\
+> Please test your project before using it in production.\
+> If you have a problem with the new version, please create a [new issue](https://github.com/webdiscus/webpack-remove-empty-scripts/issues).
+
+> ⚠️ The last stable release is `0.8.x` in the branch [`master`](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/master).
+
 
 ## Also See
 
