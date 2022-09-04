@@ -1,0 +1,14 @@
+#a-page {
+  background-color: "blue";
+}
+
+#b-page {
+  background-color: "red";
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+

@@ -1,8 +1,13 @@
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 const baseConfig = {
+  mode: 'production',
+  output: {
+    path: path.join(__dirname, 'public/'),
+    clean: false, // must be false, otherwise output of first config will be removed
+  },
   module: {
     rules: [
       {
@@ -21,11 +26,11 @@ const baseConfig = {
 
 module.exports = [
   {
-    entry: { scriptA: './script.js', styleA: './style.css' },
+    entry: { scriptA: './src/script.js', styleA: './src/style.css' },
     ...baseConfig,
   },
   {
-    entry: { styleB: './style.css', scriptB: './script.js' },
+    entry: { styleB: './src/style.css', scriptB: './src/script.js' },
     ...baseConfig,
   },
 ];

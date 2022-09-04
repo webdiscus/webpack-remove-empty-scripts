@@ -1,10 +1,14 @@
+const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-
 module.exports = {
-  entry: { script: './script.js', style: './style.css' },
+  mode: 'production',
+  output: {
+    path: path.join(__dirname, 'public/'),
+  },
+  entry: { script: './src/script.js', style: './src/style.css' },
   module: {
     rules: [
       {
@@ -29,6 +33,7 @@ module.exports = {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
           chunks: 'all',
+          enforce: true,
         },
       },
     },

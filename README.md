@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts/latest?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/0.8.1)
+[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts/latest?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/0.8.3)
 [![node](https://img.shields.io/node/v/webpack-remove-empty-scripts)](https://nodejs.org)
 [![node](https://img.shields.io/github/package-json/dependency-version/webdiscus/webpack-remove-empty-scripts/peer/webpack)](https://webpack.js.org/)
 [![codecov](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts)
@@ -54,32 +54,29 @@ Define Pug files in webpack entry:
 const PugPlugin = require('pug-plugin');
 module.exports = {
   entry: {
-    // all sources of scripts and styles can be used directly in Pug
-    // here should be defined Pug templates only
-    index: './src/views/index.pug',      // output index.html
-    about: './src/views/about/index.pug' // output about.html
-    // ..
+    // all script and style sources can be defined directly in Pug
+    index: './src/views/index.pug',      // => dist/index.html
+    about: './src/views/about/index.pug' // => dist/about.html
   },
   plugins: [
     // enable using Pug files in webpack entry
     new PugPlugin({
-      modules: [
-        // enable extract CSS from source of styles used in Pug
-        PugPlugin.extractCss({
-          // output filename of styles
-          filename: 'assets/css/[name].[contenthash:8].css',
-        }),
-      ],
+      // extract CSS from style sources defined in Pug
+      extractCss: {
+        // output filename of styles
+        filename: 'assets/css/[name].[contenthash:8].css',
+      },
     }),
   ],
-  // ...
 };
 ```
+
 Use source files of styles and scripts directly in Pug:
 ```pug
 link(href=require('./styles.scss') rel='stylesheet')
 script(src=require('./main.js'))
 ```
+
 Generated HTML contains hashed CSS and JS output filenames:
 ```html
 <link href="/assets/css/styles.05e4dd86.css" rel="stylesheet">

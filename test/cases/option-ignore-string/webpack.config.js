@@ -1,14 +1,18 @@
-const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
-
+const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 
 const middlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&name=';
 
 module.exports = {
+  mode: 'production',
+  output: {
+    path: path.join(__dirname, 'public/'),
+  },
   entry: {
-    script: ['./script.js', middlewareScript + 'script'],
-    style: ['./style.css', middlewareScript + 'client'],
+    script: ['./src/script.js', middlewareScript + 'script'],
+    style: ['./src/style.css', middlewareScript + 'client'],
   },
   module: {
     rules: [

@@ -1,16 +1,20 @@
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 module.exports = {
+  mode: 'production',
+  output: {
+    path: path.join(__dirname, 'public/'),
+  },
   entry: {
-    apage: ['./apage.js'],
+    apage: ['./src/apage.js'],
     bpage: {
-      import: './bpage.js',
+      import: './src/bpage.js',
       filename: 'bpage-other.js',
     },
-    about: ['./about.html'], // pass the compiled into js file for other handlers
-    styles: ['./apage.css', './bpage.css', './common.css'],
+    about: ['./src/about.html'], // pass the compiled into js file for other handlers
+    styles: ['./src/apage.css', './src/bpage.css', './src/common.css'],
   },
   module: {
     rules: [

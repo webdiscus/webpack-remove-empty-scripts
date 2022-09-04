@@ -1,11 +1,15 @@
-const WebpackRemoveEmptyScripts = require('../../../src/index.js');
-
+const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 
 module.exports = {
+  mode: 'production',
+  output: {
+    path: path.join(__dirname, 'public/'),
+  },
   entry: {
-    'style': './style.css',
-    'style.rem': './style.css',
+    'style': './src/style.css',
+    'style.rem': './src/style.css',
   },
   module: {
     rules: [
@@ -16,7 +20,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new WebpackRemoveEmptyScripts({
+    new RemoveEmptyScriptsPlugin({
       verbose: true,
       remove: /(?<!\.rem)\.(js|mjs)$/, // generated assets `*.js` must be removed, but not `*.rem.js`
     }),

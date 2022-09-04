@@ -4,7 +4,10 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 
-[test/cases/**.html]
-end_of_line = lf
-# disable final new line for expected html files
-insert_final_newline = false
+[{*.cjs,*.js}]
+indent_size = 2
+tab_width = 2
+
+[{*.htm,*.html,*.pug,*.md}]
+indent_size = 2
+tab_width = 2

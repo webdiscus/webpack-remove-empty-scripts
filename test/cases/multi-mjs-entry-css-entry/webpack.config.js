@@ -1,12 +1,14 @@
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 module.exports = {
-  entry: { script: './script.mjs', style: './style.css' },
+  mode: 'production',
   output: {
+    path: path.join(__dirname, 'public/'),
     filename: '[name].mjs',
   },
+  entry: { script: './src/script.mjs', style: './src/style.css' },
   module: {
     rules: [
       {

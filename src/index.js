@@ -5,7 +5,9 @@
 const path = require('path');
 const ansis = require('ansis');
 
-const plugin = 'remove-empty-scripts';
+const { outToConsole } = require('./utils');
+
+const pluginName = 'remove-empty-scripts';
 const defaultOptions = {
   enabled: true,
   verbose: false,
@@ -19,6 +21,9 @@ const defaultOptions = {
 let dependencyId = 1;
 
 class WebpackRemoveEmptyScriptsPlugin {
+  outputPath = '';
+  trash = [];
+
   constructor (options) {
     this.apply = this.apply.bind(this);
     this.options = Object.assign({}, defaultOptions, options);
@@ -40,26 +45,29 @@ class WebpackRemoveEmptyScriptsPlugin {
   apply (compiler) {
     if (!this.enabled) return;
 
-    const { remove: removeAssets, ignore: ignoreEntryResource, extensions: styleExtensionRegexp } = this.options;
+    // clear cache for webpack dev server
+    this.trash = [];
+    this.outputPath = compiler.options.output.path;
 
-    compiler.hooks.compilation.tap(plugin, compilation => {
+    compiler.hooks.thisCompilation.tap(pluginName, compilation => {
       const resourcesCache = [];
 
-      compilation.hooks.chunkAsset.tap(plugin, (chunk, filename) => {
+      compilation.hooks.chunkAsset.tap(pluginName, (chunk, filename) => {
+        const { remove: removeAssets, ignore: ignoreEntryResource, extensions: styleExtensionRegexp } = this.options;
         if (!removeAssets.test(filename)) return;
 
-        const outputPath = compiler.options.output.path;
         const chunkGraph = compilation.chunkGraph;
         let entryResources = [];
 
         for (const module of chunkGraph.getChunkEntryModulesIterable(chunk)) {
           if (!compilation.modules.has(module)) {
             throw new Error(
-              `\n${ansis.black.bgRed(`[${plugin}]`)} entry module in chunk but not in compilation ${chunk.debugId} ${module.debugId}`
+              `\n${ansis.black.bgRed(
+                `[${pluginName}]`)} entry module in chunk but not in compilation ${chunk.debugId} ${module.debugId}`,
             );
           }
 
-          const moduleResources = collectEntryResources(compilation, module, resourcesCache);
+          const moduleResources = getEntryResources(compilation, module, resourcesCache);
           entryResources = entryResources.concat(moduleResources);
         }
 
@@ -72,24 +80,29 @@ class WebpackRemoveEmptyScriptsPlugin {
 
         if (isEmptyScript) {
           if (this.verbose) {
-            const outputFile = path.join(outputPath, filename);
-            console.log(
-              `${ansis.black.bgYellow(`[${plugin}]`)} remove ${ansis.cyan(outputFile)}`,
+            const outputFile = path.join(this.outputPath, filename);
+            outToConsole(
+              `${ansis.black.bgYellow(`[${pluginName}]`)} remove ${ansis.cyan(outputFile)}\n`,
             );
           }
-
-          chunk.files.delete(filename);
-          compilation.deleteAsset(filename);
+          // note: do not delete here compilation empty assets, do it in 'afterProcessAssets' only
+          this.trash.push(filename);
         }
+      });
+
+      // Delete empty scripts only after processing all plugins,
+      // otherwise, by usage some plugins, the necessary files may be not created.
+      compilation.hooks.afterProcessAssets.tap(pluginName, () => {
+        this.trash.forEach(file => compilation.deleteAsset(file));
       });
     });
   }
 }
 
-function collectEntryResources (compilation, module, cache) {
+function getEntryResources (compilation, module, cache) {
   const moduleGraph = compilation.moduleGraph,
     index = moduleGraph.getPreOrderIndex(module),
-    propNameDependencyId = '__dependencyWebpackRemoveEmptyScriptsUniqueId',
+    propNameDependencyId = '__webpackRemoveEmptyScriptsUniqueId',
     resources = [];
 
   // the index can be null
@@ -108,7 +121,6 @@ function collectEntryResources (compilation, module, cache) {
 
   if (module.dependencies) {
     module.dependencies.forEach(dependency => {
-
       let module = moduleGraph.getModule(dependency),
         originModule = moduleGraph.getParentModule(dependency),
         nextModule = module || originModule,
@@ -119,11 +131,8 @@ function collectEntryResources (compilation, module, cache) {
         useNextModule = true;
       }
 
-      // debug info
-      //console.log('::: module ::: ', useNextModule ? '' : '-----', dependency[propNameDependencyId]);
-
       if (nextModule && useNextModule) {
-        const dependencyResources = collectEntryResources(compilation, nextModule, cache);
+        const dependencyResources = getEntryResources(compilation, nextModule, cache);
 
         for (let i = 0, length = dependencyResources.length; i !== length; i++) {
           const file = dependencyResources[i];

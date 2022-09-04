@@ -1,0 +1,1 @@
+{"version":3,"file":"main.css","mappings":"AAAA,GACE,U","sources":["webpack:///./src/sass/main.scss"],"sourcesContent":["h1 {\n  color: red;\n}"],"names":[],"sourceRoot":""}

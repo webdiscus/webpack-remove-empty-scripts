@@ -1,0 +1,1 @@
+{"version":3,"file":"main.js","mappings":"AACIA,QAAQC,IAAI","sources":["webpack:///./src/js/main.js"],"sourcesContent":["function main() {\n    console.log('>> main.js');\n}\n\nmain();"],"names":["console","log"],"sourceRoot":""}

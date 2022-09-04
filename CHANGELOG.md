@@ -1,3 +1,11 @@
+## 0.8.3 (2022-09-04)
+- docs: update readme
+
+## 0.8.2 (2022-09-04)
+- fix: keep extracted wordpress dependencies, #9
+- test: refactor tests
+- chore: update npm packages
+
 ## 0.8.1 (2022-06-14)
 - fix: add supports for TypeScript
 - chore: update packages
