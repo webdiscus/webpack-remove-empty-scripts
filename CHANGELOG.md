@@ -1,3 +1,6 @@
+## 0.8.4 (2022-09-08)
+- fix: fixed last stable version of ansis in package.json to avoid issues in dependency
+
 ## 0.8.3 (2022-09-04)
 - docs: update readme
 
