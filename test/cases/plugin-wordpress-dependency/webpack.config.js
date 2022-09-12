@@ -40,13 +40,14 @@ const styleConfig = {
   },
   output: {
     path: path.join(__dirname, 'public/css'),
-    clean: false, // must be false, otherwise output of first config will be removed
+    clean: true,
   },
   plugins: [
     new MiniCssExtractPlugin(),
     new DependencyExtractionWebpackPlugin(),
     new RemoveEmptyScriptsPlugin({
       verbose: true,
+      stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
     }),
   ],
 };

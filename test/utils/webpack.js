@@ -2,14 +2,15 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
+import { paths } from '../config';
 
-const prepareWebpackConfig = (PATHS, relTestCasePath, webpackOpts = {}) => {
-  const testPath = path.join(PATHS.testSource, relTestCasePath),
+const prepareWebpackConfig = (dirname, webpackOpts = {}) => {
+  const testPath = path.join(paths.testSource, dirname),
     configFile = path.join(testPath, 'webpack.config.js'),
-    commonConfigFile = path.join(PATHS.base, 'webpack.common.js');
+    commonConfigFile = path.join(paths.base, 'webpack.common.js');
 
   if (!fs.existsSync(configFile)) {
-    throw new Error(`The config file '${configFile}' not found for test: ${relTestCasePath}`);
+    throw new Error(`The config file '${configFile}' not found for test: ${dirname}`);
   }
 
   let baseConfig = {
@@ -33,12 +34,12 @@ const prepareWebpackConfig = (PATHS, relTestCasePath, webpackOpts = {}) => {
     : merge(baseConfig, commonConfig, webpackOpts, testConfig);
 };
 
-export const compile = (PATHS, testCasePath, webpackOpts) =>
+export const compile = (dirname, webpackOpts) =>
   new Promise((resolve, reject) => {
     let config;
 
     try {
-      config = prepareWebpackConfig(PATHS, testCasePath, webpackOpts);
+      config = prepareWebpackConfig(dirname, webpackOpts);
     } catch (error) {
       reject('[webpack prepare config] ' + error.toString());
       return;

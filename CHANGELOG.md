@@ -1,3 +1,22 @@
+## 1.0.0 (2022-09-12)
+- BRAKING CHANGE: reverted defaults behavior as in `v0.8.1` - remove empty scripts before other plugins will be called.
+  This change is needs for properly work of the vast majority of webpack plugins.
+
+  For compatibility with `v0.8.2 - v0.8.4`, if you have an issue, use new `stage` option with the value:
+  ```js
+  new RemoveEmptyScriptsPlugin({
+    stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
+  })
+  ```
+- feat: added new `stage` option.
+  Webpack plugins use different stages for their functionality.
+  For properly work other plugins can be specified the `stage` when should be removed empty scripts: before or after processing of other webpack plugins.\
+  For example, using `@wordpress/dependency-extraction-webpack-plugin` the empty scripts must be removed `after` processing all plugins.
+  Using `webpack-manifest-plugin` the empty scripts must be removed `before` processing other plugins.
+- chore: update packages
+- test: added the test for using with webpack-manifest-plugin
+- docs: update readme
+
 ## 0.8.4 (2022-09-08)
 - fix: fixed last stable version of ansis in package.json to avoid issues in dependency
 

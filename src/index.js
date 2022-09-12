@@ -3,18 +3,13 @@
  */
 
 const path = require('path');
-const ansis = require('ansis');
+const { red, green, cyan, cyanBright, yellow, magenta, white, black, gray, blueBright } = require('ansis/colors');
 
 const { outToConsole } = require('./utils');
 
 const pluginName = 'remove-empty-scripts';
-const defaultOptions = {
-  enabled: true,
-  verbose: false,
-  extensions: ['css', 'scss', 'sass', 'less', 'styl'],
-  ignore: [],
-  remove: /\.(js|mjs)$/,
-};
+const infoPluginName = `\n${black.bgYellow`[${pluginName}]`}`;
+const errorPluginName = `\n${black.bgRed`[${pluginName}]`}`;
 
 // Save unique id in dependency object as marker of 'analysed module'
 // to avoid the infinite recursion by collect of resources.
@@ -23,6 +18,9 @@ let dependencyId = 1;
 class WebpackRemoveEmptyScriptsPlugin {
   outputPath = '';
   trash = [];
+
+  static STAGE_BEFORE_PROCESS_PLUGINS = 100;
+  static STAGE_AFTER_PROCESS_PLUGINS = 200;
 
   constructor (options) {
     this.apply = this.apply.bind(this);
@@ -62,8 +60,7 @@ class WebpackRemoveEmptyScriptsPlugin {
         for (const module of chunkGraph.getChunkEntryModulesIterable(chunk)) {
           if (!compilation.modules.has(module)) {
             throw new Error(
-              `\n${ansis.black.bgRed(
-                `[${pluginName}]`)} entry module in chunk but not in compilation ${chunk.debugId} ${module.debugId}`,
+              `${errorPluginName} Entry module in chunk but not in compilation ${chunk.debugId} ${module.debugId}`,
             );
           }
 
@@ -79,14 +76,28 @@ class WebpackRemoveEmptyScriptsPlugin {
           resources.every(resource => styleExtensionRegexp.test(resource));
 
         if (isEmptyScript) {
+          const stage = this.options.stage;
           if (this.verbose) {
             const outputFile = path.join(this.outputPath, filename);
-            outToConsole(
-              `${ansis.black.bgYellow(`[${pluginName}]`)} remove ${ansis.cyan(outputFile)}\n`,
-            );
+            outToConsole(`${infoPluginName} remove ${cyan(outputFile)}\n`);
           }
-          // note: do not delete here compilation empty assets, do it in 'afterProcessAssets' only
-          this.trash.push(filename);
+
+          switch (stage) {
+            case WebpackRemoveEmptyScriptsPlugin.STAGE_BEFORE_PROCESS_PLUGINS:
+              // remove empty script immediately, before other plugins will be called
+              compilation.deleteAsset(filename);
+              break;
+            case WebpackRemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS:
+              // add file to trash, which at 'afterProcessAssets' wird cleaned
+              // remove empty script later, after all plugins are called
+              this.trash.push(filename);
+              break;
+            default:
+              throw new Error(
+                `${errorPluginName} Invalid value of config option 'stage': ${gray(stage ? stage.toString() : '')}. `+
+                `See the option description in README.`
+              );
+          }
         }
       });
 
@@ -98,6 +109,16 @@ class WebpackRemoveEmptyScriptsPlugin {
     });
   }
 }
+
+const defaultOptions = {
+  enabled: true,
+  verbose: false,
+  /** @type {Array<string>|RegExp}  */
+  extensions: ['css', 'scss', 'sass', 'less', 'styl'],
+  ignore: [],
+  remove: /\.(js|mjs)$/,
+  stage: WebpackRemoveEmptyScriptsPlugin.STAGE_BEFORE_PROCESS_PLUGINS,
+};
 
 function getEntryResources (compilation, module, cache) {
   const moduleGraph = compilation.moduleGraph,

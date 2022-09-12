@@ -1,6 +1,7 @@
 import path from 'path';
 import { readDirRecursiveSync, readTextFileSync } from './file';
 import { compile } from './webpack';
+import { paths } from '../config';
 
 /**
  * This is the patch for some environments, like `jest`.
@@ -17,25 +18,26 @@ export const getCompareFileList = function (receivedPath, expectedPath) {
   };
 };
 
-export const getCompareFileContents = function (receivedFile, expectedFile, filter = /.(html|css|css.map|js|js.map)$/) {
-  return filter.test(receivedFile) && filter.test(expectedFile)
+export const getCompareFileContents = function (receivedFile, expectedFile, filter = /.(html|css|css.map|js|json|js.map)$/) {
+  return !filter || filter.test(receivedFile) && filter.test(expectedFile)
     ? { received: readTextFileSync(receivedFile), expected: readTextFileSync(expectedFile) }
     : { received: '', expected: '' };
 };
 
-export const compareFileListAndContent = (PATHS, relTestCasePath, done) => {
-  const absTestPath = path.join(PATHS.testSource, relTestCasePath),
-    webRootPath = path.join(absTestPath, PATHS.webRoot),
-    expectedPath = path.join(absTestPath, PATHS.expected);
+export const compareFileListAndContent = (done, dirname, filter = /.(html|css|css.map|js|json|js.map)$/) => {
+  const absTestPath = path.join(paths.testSource, dirname),
+    webRootPath = path.join(absTestPath, paths.webRoot),
+    expectedPath = path.join(absTestPath, paths.expected);
 
-  compile(PATHS, relTestCasePath, {}).then(() => {
+  compile(dirname, {}).then(() => {
     const { received: receivedFiles, expected: expectedFiles } = getCompareFileList(webRootPath, expectedPath);
     expect(receivedFiles).toEqual(expectedFiles);
 
     expectedFiles.forEach((file) => {
       const { received, expected } = getCompareFileContents(
         path.join(webRootPath, file),
-        path.join(expectedPath, file)
+        path.join(expectedPath, file),
+        filter
       );
       expect(received).toEqual(expected);
     });
@@ -43,20 +45,20 @@ export const compareFileListAndContent = (PATHS, relTestCasePath, done) => {
   });
 };
 
-export const compareFileList = (PATHS, relTestCasePath, done) => {
-  const absTestPath = path.join(PATHS.testSource, relTestCasePath),
-    webRootPath = path.join(absTestPath, PATHS.webRoot),
-    expectedPath = path.join(absTestPath, PATHS.expected);
+export const compareFileList = (done, dirname) => {
+  const absTestPath = path.join(paths.testSource, dirname),
+    webRootPath = path.join(absTestPath, paths.webRoot),
+    expectedPath = path.join(absTestPath, paths.expected);
 
-  compile(PATHS, relTestCasePath, {}).then(() => {
+  compile(dirname, {}).then(() => {
     const { received: receivedFiles, expected: expectedFiles } = getCompareFileList(webRootPath, expectedPath);
     expect(receivedFiles).toEqual(expectedFiles);
     done();
   });
 };
 
-export const exceptionContain = function (PATHS, relTestCasePath, containString, done) {
-  compile(PATHS, relTestCasePath, {})
+export const exceptionContain = function (done, dirname, containString) {
+  compile(dirname, {})
     .then(() => {
       throw new Error('the test should throw an error');
     })
@@ -66,10 +68,10 @@ export const exceptionContain = function (PATHS, relTestCasePath, containString,
     });
 };
 
-export const stdoutContain = function (PATHS, relTestCasePath, containString, done) {
+export const stdoutContain = function (done, dirname, containString) {
   const stdout = jest.spyOn(console._stdout, 'write').mockImplementation(() => {});
 
-  compile(PATHS, relTestCasePath, {}).then(() => {
+  compile(dirname, {}).then(() => {
     const { calls } = stdout.mock;
     const output = calls.length > 0 ? calls[0][0] : '';
 
