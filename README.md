@@ -1,79 +1,68 @@
-[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts/latest?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts/v/0.8.3)
+<div align="center">
+  <img width="120" height="120" src="https://cdn.worldvectorlogo.com/logos/logo-javascript.svg">
+  <a href="https://webpack.js.org/">
+    <img width="120" height="120" vspace="" hspace="25" src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon-square-big.svg">
+  </a>
+  <h1><a href="https://github.com/webdiscus/webpack-remove-empty-scripts">webpack-remove-empty-scripts</a></h1>
+  <div>The plugin removes empty JavaScript files generated when using only styles in Webpack entry.</div>
+</div>
+
+---
+[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts/latest?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts)
 [![node](https://img.shields.io/node/v/webpack-remove-empty-scripts)](https://nodejs.org)
 [![node](https://img.shields.io/github/package-json/dependency-version/webdiscus/webpack-remove-empty-scripts/peer/webpack)](https://webpack.js.org/)
 [![codecov](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts)
 [![node](https://img.shields.io/npm/dm/webpack-remove-empty-scripts)](https://www.npmjs.com/package/webpack-remove-empty-scripts)
 
-# [webpack-remove-empty-scripts](https://www.npmjs.com/package/webpack-remove-empty-scripts)
+Webpack generates a js file for each resource defined in Webpack entry.\
+The `mini-css-extract-plugin` extract CSS, but not eliminate a generated empty js file.\
+See the [mini-css-extract-plugin issue](https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151).
+```js
+module.exports = {
+  entry: {
+    styles: './styles.scss', // generates expected `styles.css` and unexpected `styles.js`
+  },
+}
+```
+This plugin remove unexpected empty js file.
 
 
-The plugin removes empty `js` scripts generated when using only the styles like `css` `scss` `sass` `less` `stylus` in the webpack entry.
-
-This is improved fork of original plugin [webpack-fix-style-only-entries](https://github.com/fqborges/webpack-fix-style-only-entries) ver. 0.6.0.\
-This fork fixes deprecation messages, issues when using React and some specific plugins.
-
-The plugin support only `Webpack 5`.
-For `Webpack 4` use original [plugin](https://github.com/fqborges/webpack-fix-style-only-entries).
+> **Note**
+> 
+> This is improved fork of the plugin [webpack-fix-style-only-entries](https://github.com/fqborges/webpack-fix-style-only-entries) v0.6.0.\
+> The plugin support `Webpack 5` only.
+> For `Webpack 4` use original [plugin](https://github.com/fqborges/webpack-fix-style-only-entries).
 
 > **Warning**
 > 
 > The new version `1.0.0` has probable `BRAKING CHANGE`.\
 > In this version was reverted defaults behavior as in `v0.8.1` - remove empty scripts `before` processing other plugins.
-
+>
 > **Migration to v1.0.0**
 > 
 > When update from `<= v0.8.1`, nothing needs to be done.\
 > When update from `v0.8.2 - v0.8.4`, if you have an issue, try to use new `stage` option with `RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS` value. 
-
-## Description of the problem
-
-Webpack generates a js file for each resource defined in a webpack entry.
-Some extract plugins use webpack entry to define non-js resources. 
-For example, in webpack entry might be defined resources like js, css, scss, html, pug, etc. 
-Each resource type needs its own extract plugin and loader. Such a extract plugin should take care of eliminating the phantom js files for non-js resources by self.
-But the `mini-css-extract-plugin` not do it.
-This plugin fixes this, finds and removes phantom js files for non-js resources.
-
-```js
-module.exports = {
-  entry: {
-    main: './main.js', // the generated `main.js` is what we expect
-    styles: './main.scss', // will be generated the expected `styles.css` and the unexpected `styles.js`
-  },
-  // ...
-}
-```
-
-You can find more info by the following issues:
-
- - [extract-text-webpack-plugin issue](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/518)
- - [mini-css-extract-plugin issue](https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151)
 
 ---
 
 ## Usage with Pug
 
 If you use Pug with this plugin, then you should use the [pug-plugin](https://github.com/webdiscus/pug-plugin).<br>
-Pug plugin enable using Pug files directly in webpack entry.<br>
-Pug plugin extract JavaScript and CSS from sources used in Pug.
+Pug plugin enable to define Pug files in Webpack entry, extract JS and CSS from their sources used in Pug.
 
-> 💡Using `pug-plugin` the entry-point is the Pug template, not a JS file.
-
-Define Pug files in webpack entry:
+Define Pug files in Webpack entry:
 ```js
 const PugPlugin = require('pug-plugin');
 module.exports = {
   entry: {
     // all script and style sources can be defined directly in Pug
     index: './src/views/index.pug',      // => dist/index.html
-    about: './src/views/about/index.pug' // => dist/about.html
   },
   plugins: [
-    // enable using Pug files in webpack entry
+    // enable using Pug files in Webpack entry
     new PugPlugin({
       // extract CSS from style sources defined in Pug
       extractCss: {
-        // output filename of styles
         filename: 'assets/css/[name].[contenthash:8].css',
       },
     }),
@@ -93,9 +82,7 @@ Generated HTML contains hashed CSS and JS output filenames:
 <script src="/assets/js/main.f4b855d8.js"></script>
 ```
 
-You don't need anymore to use `html-webpack-plugin` `mini-css-extract-plugin` `webpack-remove-empty-scripts` and `pug-loader`.
-The single `pug-plugin` replaces all most used functions of these plugins and loaders.
-Keep your webpack config clear and clean.
+The single `pug-plugin` replaces the functionality of `html-webpack-plugin` `mini-css-extract-plugin` `webpack-remove-empty-scripts` and `pug-loader`.
 
 ---
 
@@ -153,7 +140,7 @@ Values:
   For example, exact this stage needs for properly work of the `@wordpress/dependency-extraction-webpack-plugin`.
 
 Webpack plugins use different stages for their functionality.
-For properly work other plugins can be specified the `stage` when should be removed empty scripts: before or after processing of other webpack plugins.
+For properly work other plugins can be specified the `stage` when should be removed empty scripts: before or after processing of other Webpack plugins.
 
 See [usage example](#usage-stage-optoion).
 
@@ -270,6 +257,60 @@ new RemoveEmptyScriptsPlugin({
 `npm run test` will run the unit and integration tests.\
 `npm run test:coverage` will run the tests with coverage.
 
+
+## Who use this plugin
+
+<a href='https://github.com/mozilla'>
+  <img src='https://avatars.githubusercontent.com/u/131524?s=42&v=4'>
+</a>
+<a href='https://github.com/jenkinsci'>
+  <img src='https://avatars.githubusercontent.com/u/107424?s=42&v=4'>
+</a>
+<a href='https://github.com/coinbase'>
+  <img src='https://avatars.githubusercontent.com/u/1885080?s=42&v=4'>
+</a>
+<a href='https://github.com/PrestaShop'>
+  <img src='https://avatars.githubusercontent.com/u/2815696?s=42&v=4'>
+</a>
+<a href='https://github.com/getsentry'>
+  <img src='https://avatars.githubusercontent.com/u/1396951?s=42&v=4'>
+</a>
+<a href='https://github.com/standardnotes'>
+  <img src='https://avatars.githubusercontent.com/u/24537496?s=42&v=4'>
+</a>
+<a href='https://github.com/woocommerce'>
+  <img src='https://avatars.githubusercontent.com/u/473596?s=42&v=4'>
+</a>
+<a href='https://github.com/roots'>
+  <img src='https://avatars.githubusercontent.com/u/4986074?s=42&v=4'>
+</a>
+<a href='https://github.com/ampproject'>
+  <img src='https://avatars.githubusercontent.com/u/14114390?s=42&v=4'>
+</a>
+<a href='https://github.com/awesomemotive'>
+  <img src='https://avatars.githubusercontent.com/u/8514352?s=42&v=4'>
+</a>
+<a href='https://github.com/10up'>
+  <img src='https://avatars.githubusercontent.com/u/3358927?s=42&v=4'>
+</a>
+<a href='https://github.com/collab-project'>
+  <img src='https://avatars.githubusercontent.com/u/347599?s=42&v=4'>
+</a>
+<a href='https://github.com/jspsych'>
+  <img src='https://avatars.githubusercontent.com/u/16901698?s=42&v=4'>
+</a>
+<a href='https://github.com/grandnode'>
+  <img src='https://avatars.githubusercontent.com/u/16118376?s=42&v=4'>
+</a>
+<a href='https://github.com/TheOdinProject'>
+  <img src='https://avatars.githubusercontent.com/u/4441966?s=42&v=4'>
+</a>
+<a href='https://github.com/helsingborg-stad'>
+  <img src='https://avatars.githubusercontent.com/u/12846276?s=42&v=4'>
+</a>
+<a href='https://github.com/City-of-Helsinki'>
+  <img src='https://avatars.githubusercontent.com/u/1875564?s=42&v=4'>
+</a>
 
 ## Also See
 

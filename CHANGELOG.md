@@ -1,3 +1,6 @@
+## 1.0.1 (2022-09-19)
+- docs: update readme
+
 ## 1.0.0 (2022-09-12)
 - BRAKING CHANGE: reverted defaults behavior as in `v0.8.1` - remove empty scripts before other plugins will be called.
   This change is needs for properly work of the vast majority of webpack plugins.
