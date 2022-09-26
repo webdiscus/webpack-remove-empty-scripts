@@ -35,7 +35,7 @@ This plugin remove unexpected empty js file.
 
 > **Warning**
 > 
-> The new version `1.0.0` has probable `BREAKING CHANGE`.\
+> Version `1.0.0` might introduce a possible `BREAKING CHANGE`.\
 > In this version was reverted defaults behavior as in `v0.8.1` - remove empty scripts `before` processing other plugins.
 >
 > **Migration to v1.0.0**
