@@ -2,7 +2,7 @@
 - docs: update readme
 
 ## 1.0.0 (2022-09-12)
-- BRAKING CHANGE: reverted defaults behavior as in `v0.8.1` - remove empty scripts before other plugins will be called.
+- BREAKING CHANGE: reverted default behavior as in `v0.8.1` - remove empty scripts before other plugins will be called.
   This change is needs for properly work of the vast majority of webpack plugins.
 
   For compatibility with `v0.8.2 - v0.8.4`, if you have an issue, use new `stage` option with the value:
