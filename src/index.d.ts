@@ -9,7 +9,9 @@ interface IOptions {
   verbose: boolean;
 }
 
-export type WebpackRemoveEmptyScriptsPluginOptions = Partial<IOptions>;
+declare namespace WebpackRemoveEmptyScriptsPlugin {
+  export type Options = Partial<IOptions>;
+}
 
 declare class WebpackRemoveEmptyScriptsPlugin implements WebpackPluginInstance {
   [index: string]: any;
@@ -17,9 +19,9 @@ declare class WebpackRemoveEmptyScriptsPlugin implements WebpackPluginInstance {
   public static STAGE_BEFORE_PROCESS_PLUGINS: number;
   public static STAGE_AFTER_PROCESS_PLUGINS: number;
 
-  constructor(options: WebpackRemoveEmptyScriptsPluginOptions);
+  constructor(options: WebpackRemoveEmptyScriptsPlugin.Options);
 
   apply(compiler: Compiler): void;
 }
 
-export default WebpackRemoveEmptyScriptsPlugin;
+export = WebpackRemoveEmptyScriptsPlugin;

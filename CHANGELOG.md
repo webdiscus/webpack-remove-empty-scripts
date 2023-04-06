@@ -1,3 +1,8 @@
+## 1.0.2 (2023-04-07)
+- fix: correctly export types for TS when used CommonJS
+- chore: update dev packages
+- docs: update readme
+
 ## 1.0.1 (2022-09-19)
 - docs: update readme
 

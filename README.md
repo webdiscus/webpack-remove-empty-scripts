@@ -8,9 +8,10 @@
 </div>
 
 ---
-[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts/latest?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts)
+[![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts "download npm package")
 [![node](https://img.shields.io/node/v/webpack-remove-empty-scripts)](https://nodejs.org)
 [![node](https://img.shields.io/github/package-json/dependency-version/webdiscus/webpack-remove-empty-scripts/peer/webpack)](https://webpack.js.org/)
+[![Test](https://github.com/webdiscus/webpack-remove-empty-scripts/actions/workflows/test.yml/badge.svg)](https://github.com/webdiscus/webpack-remove-empty-scripts/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts)
 [![node](https://img.shields.io/npm/dm/webpack-remove-empty-scripts)](https://www.npmjs.com/package/webpack-remove-empty-scripts)
 
@@ -33,96 +34,83 @@ This plugin removes an unexpected empty JS file.
 
 ---
 
-## Usage with `html-webpack-plugin`
+## Usage with html-webpack-plugin
 
-💡 It is recommended to use the new powerful [html-bundler-webpack-plugin][html-bundler-webpack-plugin].\
-This plugin replaces the functionality of `html-webpack-plugin`, `mini-css-extract-plugin` and **doesn't generate unexpected empty JS files**.
+> **Warning**
+> 
+> The `webpack-remove-empty-scripts` is the `Emergency Fix` for the `bug` in `mini-css-extract-plugin`.
+>
+> ✅ It is recommended to use the new powerful [html-bundler-webpack-plugin][html-bundler-webpack-plugin] instead of:
+> 
+> - html-webpack-plugin
+> - mini-css-extract-plugin
+> - webpack-remove-empty-scripts
 
-The HTML Bundler Plugin automatically extracts JS, CSS, images, fonts from their sources loaded directly in HTML.
-The generated HTML contains output hashed filenames of processed source files.
-The plugin allow to use an HTML file or a template as an entry point in Webpack.
+### Highlights of html-bundler-webpack-plugin
+
+- **Prevents generating unexpected empty JS files.**
+- An [entry point](https://github.com/webdiscus/html-bundler-webpack-plugin#option-entry) is an HTML template.
+- Source **scripts** and **styles** can be specified directly in HTML using `<script>` and `<link>`.
+- Extracts JS and CSS from their sources specified in HTML.
+- Resolving [source](https://github.com/webdiscus/html-bundler-webpack-plugin#loader-option-sources) assets specified in standard attributes `href` `src` `srcset` etc.
+- Inline [JS](https://github.com/webdiscus/html-bundler-webpack-plugin#recipe-inline-js), [CSS](https://github.com/webdiscus/html-bundler-webpack-plugin#recipe-inline-css), [SVG](https://github.com/webdiscus/html-bundler-webpack-plugin#recipe-inline-image), [PNG](https://github.com/webdiscus/html-bundler-webpack-plugin#recipe-inline-image) without additional plugins and loaders.
+- Support for [template engines](https://github.com/webdiscus/html-bundler-webpack-plugin#recipe-template-engine) such as Eta, EJS, Handlebars, Nunjucks, LiquidJS and others.
+
+
 
 ### Simple usage example
 
-The source _index.html_
+Add source scripts and styles directly to HTML:
+
 ```html
 <html>
-  <head>
-    <!-- load source style -->
-    <link href="./style.scss" rel="stylesheet">
-    <!-- load source script -->
-    <script src="./main.js" defer="defer"></script>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- load image from source directory -->
-    <img src="./image.png">
-  </body>
+<head>
+  <!-- specify source styles -->
+  <link href="./style.scss" rel="stylesheet">
+  <!-- specify source scripts here and/or in body -->
+  <script src="./main.js" defer="defer"></script>
+</head>
+<body>
+  <h1>Hello World!</h1>
+  <!-- specify source images -->
+  <img src="./logo.png">
+</body>
 </html>
 ```
 
-The generated HTML
+The generated HTML contains the output filenames of the processed assets:
+
 ```html
 <html>
-  <head>
-    <link href="/assets/css/style.05e4dd86.css" rel="stylesheet">
-    <script src="/assets/js/main.f4b855d8.js" defer="defer"></script>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <img src="/assets/img/image.f47ad56f.png">
-  </body>
+<head>
+  <link href="assets/css/style.05e4dd86.css" rel="stylesheet">
+  <script src="assets/js/main.f4b855d8.js" defer="defer"></script>
+</head>
+<body>
+  <h1>Hello World!</h1>
+  <img src="assets/img/logo.58b43bd8.png">
+</body>
 </html>
 ```
 
-Simple Webpack config
+Add the HTML templates in the `entry` option:
+
 ```js
-const path = require('path');
 const HtmlBundlerPlugin = require('html-bundler-webpack-plugin');
+
 module.exports = {
-  output: {
-    path: path.join(__dirname, 'dist/'),
-  },
-  entry: {
-    // define templates here
-    index: './src/views/index.html', // => dist/index.html
-    'pages/about': './src/views/about/index.html', // => dist/pages/about.html
-    // ...
-  },
   plugins: [
     new HtmlBundlerPlugin({
-      js: {
-        // output filename of extracted JS from source script loaded in HTML via `<script>` tag
-        filename: 'assets/js/[name].[contenthash:8].js',
-      },
-      css: {
-        // output filename of extracted CSS from source style loaded in HTML via `<link>` tag
-        filename: 'assets/css/[name].[contenthash:8].css',
+      // define a relative or absolute path to template pages
+      entry: 'src/views/',
+      // OR define templates manually
+      entry: {
+        index: 'src/views/home.html', // => dist/index.html
+        'news/sport': 'src/views/news/sport/index.html', // => dist/news/sport.html
       },
     }),
   ],
-  module: {
-    rules: [
-      // templates
-      {
-        test: /\.html$/,
-        loader: HtmlBundlerPlugin.loader, // HTML loader
-      },
-      // styles
-      {
-        test: /\.(css|sass|scss)$/,
-        use: ['css-loader', 'sass-loader'],
-      },
-      // images
-      {
-        test: /\.(png|jpe?g)/,
-        type: 'asset/resource',
-        generator: {
-          filename: 'assets/img/[name].[hash:8][ext]',
-        },
-      },
-    ],
-  },
+  // ... loaders for styles, images, etc.
 };
 ```
 
@@ -145,27 +133,27 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
 module.exports = {
-    entry: {
-        'main' : './app/main.js',
-        'styles': ['./common/styles.css', './app/styles.css']
-    },
-    module: {
-        rules: [
-            {
-                test: /\.css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                ]
-            },
+  entry: {
+    'main' : './app/main.js',
+    'styles': ['./common/styles.css', './app/styles.css']
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
         ]
-    },
-    plugins: [
-        new RemoveEmptyScriptsPlugin(),
-        new MiniCssExtractPlugin({
-            filename: '[name].[chunkhash:8].css',
-        }),
-    ],
+      },
+    ]
+  },
+  plugins: [
+    new RemoveEmptyScriptsPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[chunkhash:8].css',
+    }),
+  ],
 };
 ```
 ---
@@ -309,22 +297,25 @@ new RemoveEmptyScriptsPlugin({
 ## Who use this plugin
 
 <a href='https://github.com/mozilla'>
-  <img src='https://avatars.githubusercontent.com/u/131524?s=42&v=4' title='mozilla'>
+  <img src='https://avatars.githubusercontent.com/u/131524?s=42&v=4' title='Mozilla'>
 </a>
 <a href='https://github.com/pypi/warehouse'>
-  <img src="https://avatars.githubusercontent.com/u/2964877?s=42&v=4" title='pypi'>
+  <img src="https://avatars.githubusercontent.com/u/2964877?s=42&v=4" title='PyPi'>
+</a>
+<a href='https://github.com/preactjs'>
+  <img src="https://avatars.githubusercontent.com/u/26872990?s=42&v=4" title='Preact'>
 </a>
 <a href='https://github.com/rails/jsbundling-rails/blob/main/docs/switch_from_webpacker.md'>
-  <img src="https://avatars.githubusercontent.com/u/4223?s=42&v=4" title='rails'>
+  <img src="https://avatars.githubusercontent.com/u/4223?s=42&v=4" title='Rails'>
 </a>
 <a href='https://www.cisco.com/c/dam/en_us/about/doing_business/open_source/docs/slido-test-2206-1655452418.pdf'>
-  <img src='https://avatars.githubusercontent.com/u/1376999?s=42&v=4' title='cisco'>
+  <img src='https://avatars.githubusercontent.com/u/1376999?s=42&v=4' title='Cisco'>
 </a>
 <a href='https://github.com/jenkinsci'>
   <img src='https://avatars.githubusercontent.com/u/107424?s=42&v=4' title='Jenkins'>
 </a>
 <a href='https://github.com/coinbase'>
-  <img src='https://avatars.githubusercontent.com/u/1885080?s=42&v=4' title='coinbase'>
+  <img src='https://avatars.githubusercontent.com/u/1885080?s=42&v=4' title='Coinbase'>
 </a>
 <a href='https://github.com/PrestaShop'>
   <img src='https://avatars.githubusercontent.com/u/2815696?s=42&v=4' title='PrestaShop'>
@@ -332,11 +323,14 @@ new RemoveEmptyScriptsPlugin({
 <a href='https://github.com/getsentry'>
   <img src='https://avatars.githubusercontent.com/u/1396951?s=42&v=4' title='Sentry'>
 </a>
+<a href='https://github.com/wikimedia'>
+  <img src='https://avatars.githubusercontent.com/u/56668?s=42&v=4' title='Wikimedia'>
+</a>
 <a href='https://github.com/standardnotes'>
   <img src='https://avatars.githubusercontent.com/u/24537496?s=42&v=4' title='Standard Notes'>
 </a>
 <a href='https://github.com/woocommerce'>
-  <img src='https://avatars.githubusercontent.com/u/473596?s=42&v=4' title='woocommerce'>
+  <img src='https://avatars.githubusercontent.com/u/473596?s=42&v=4' title='WooCommerce'>
 </a>
 <a href='https://github.com/roots'>
   <img src='https://avatars.githubusercontent.com/u/4986074?s=42&v=4' title='Roots'>
@@ -372,7 +366,7 @@ new RemoveEmptyScriptsPlugin({
 ## Also See
 
 - [ansis][ansis] - The Node.js library for ANSI color styling of text in terminal.
-- [html-bundler-webpack-plugin][html-bundler-webpack-plugin] - The plugin handles HTML files from entry, extracts CSS, JS, images files from their sources used in HTML.
+- [html-bundler-webpack-plugin][html-bundler-webpack-plugin] - HTML bundler plugin for webpack handels a template as an entry point, extracts CSS and JS from their sources specified in HTML, supports template engines like Eta, EJS, Handlebars, Nunjucks and others "out of the box".
 - [pug-plugin][pug-plugin] - plugin for Webpack compiles Pug files to HTML, extracts CSS and JS from their sources specified in Pug.
 - [pug-loader][pug-loader] - loader for Webpack renders Pug to HTML or template function. Optimized for using with Vue.
 
