@@ -1,3 +1,7 @@
+## UNRELEASED
+
+- fix: `options` in constructor now is optional parameter in types for TS.
+
 ## 1.0.2 (2023-04-07)
 - fix: correctly export types for TS when used CommonJS
 - chore: update dev packages

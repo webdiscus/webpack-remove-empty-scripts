@@ -2,10 +2,10 @@ import { Compiler, WebpackPluginInstance } from 'webpack';
 
 interface IOptions {
   enabled: boolean;
-  extensions: Array<string> | RegExp,
-  ignore: string | RegExp | string[] | RegExp[],
-  remove: RegExp,
-  stage: number,
+  extensions: Array<string> | RegExp;
+  ignore: string | RegExp | string[] | RegExp[];
+  remove: RegExp;
+  stage: number;
   verbose: boolean;
 }
 
@@ -19,7 +19,7 @@ declare class WebpackRemoveEmptyScriptsPlugin implements WebpackPluginInstance {
   public static STAGE_BEFORE_PROCESS_PLUGINS: number;
   public static STAGE_AFTER_PROCESS_PLUGINS: number;
 
-  constructor(options: WebpackRemoveEmptyScriptsPlugin.Options);
+  constructor(options?: WebpackRemoveEmptyScriptsPlugin.Options);
 
   apply(compiler: Compiler): void;
 }
