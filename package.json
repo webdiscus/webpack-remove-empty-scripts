@@ -1,6 +1,6 @@
 {
   "name": "webpack-remove-empty-scripts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Plugin for Webpack 5 to remove empty JavaScript files generated when using only styles in Webpack entry.",
   "keywords": [
     "webpack",
