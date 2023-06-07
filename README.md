@@ -326,11 +326,14 @@ new RemoveEmptyScriptsPlugin({
 <a href='https://github.com/wikimedia'>
   <img src='https://avatars.githubusercontent.com/u/56668?s=42&v=4' title='Wikimedia'>
 </a>
-<a href='https://github.com/standardnotes'>
-  <img src='https://avatars.githubusercontent.com/u/24537496?s=42&v=4' title='Standard Notes'>
+<a href='https://github.com/TYPO3GmbH'>
+  <img src='https://avatars.githubusercontent.com/u/24472665?s=42&v=4' title='TYPO3 GmbH'>
 </a>
 <a href='https://github.com/woocommerce'>
   <img src='https://avatars.githubusercontent.com/u/473596?s=42&v=4' title='WooCommerce'>
+</a>
+<a href='https://github.com/standardnotes'>
+  <img src='https://avatars.githubusercontent.com/u/24537496?s=42&v=4' title='Standard Notes'>
 </a>
 <a href='https://github.com/roots'>
   <img src='https://avatars.githubusercontent.com/u/4986074?s=42&v=4' title='Roots'>
