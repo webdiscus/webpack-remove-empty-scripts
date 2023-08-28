@@ -5,7 +5,7 @@ const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 module.exports = {
   mode: 'production',
   output: {
-    path: path.join(__dirname, 'public/'),
+    path: path.join(__dirname, 'dist/'),
   },
   entry: { script: './src/script.js', style: './src/style.css' },
   module: {
@@ -18,7 +18,6 @@ module.exports = {
   },
   plugins: [
     new RemoveEmptyScriptsPlugin({
-      //extensions: ['foo', 'bar'],
       extensions: /\.(foo|bar)$/,
     }),
     new MiniCssExtractPlugin({

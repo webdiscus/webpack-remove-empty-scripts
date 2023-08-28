@@ -3,7 +3,7 @@
  */
 
 const path = require('path');
-const { red, green, cyan, cyanBright, yellow, magenta, white, black, gray, blueBright } = require('ansis/colors');
+const { cyan,  black, gray} = require('ansis/colors');
 
 const { outToConsole } = require('./utils');
 
@@ -79,7 +79,7 @@ class WebpackRemoveEmptyScriptsPlugin {
           const stage = this.options.stage;
           if (this.verbose) {
             const outputFile = path.join(this.outputPath, filename);
-            outToConsole(`${infoPluginName} remove ${cyan(outputFile)}\n`);
+            outToConsole(`${infoPluginName} remove ${cyan(outputFile)}`);
           }
 
           switch (stage) {

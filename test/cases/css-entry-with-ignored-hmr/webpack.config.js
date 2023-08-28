@@ -8,7 +8,7 @@ const middlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&time
 module.exports = {
   mode: 'production',
   output: {
-    path: path.join(__dirname, 'public/'),
+    path: path.join(__dirname, 'dist/'),
   },
   entry: {
     script: ['./src/script.js', middlewareScript + 'script'],

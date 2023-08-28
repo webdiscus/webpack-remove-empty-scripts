@@ -1,10 +1,14 @@
 .DS_Store
 .idea
+.vscode
+.local
 _ignored
-package-lock.json
 coverage
 coverage.lcov
 node_modules
 public
 dist
 test/output/
+test/**/package-lock.json
+package-lock.json
+yarn.lock

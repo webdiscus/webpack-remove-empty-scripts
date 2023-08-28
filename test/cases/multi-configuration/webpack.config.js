@@ -5,7 +5,7 @@ const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 const baseConfig = {
   mode: 'production',
   output: {
-    path: path.join(__dirname, 'public/'),
+    path: path.join(__dirname, 'dist/'),
     clean: false, // must be false, otherwise output of first config will be removed
   },
   module: {

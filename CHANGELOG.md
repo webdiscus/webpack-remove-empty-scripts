@@ -1,3 +1,14 @@
+## 1.0.4 (2023-08-28)
+- fix: remove needless double new lines in console output when the `verbose` option is enabled
+- chore: add Community Standards files
+- chore: update dev packages
+- test: remove the test strategy for node versions 12.x on GitHub to allows use the latest dev packages.
+  The plugin is still compatible with node 12.x.
+- test: add the test strategies for node versions 18.x and 20.x on GitHub
+- test: refactor test utilities
+- test: add tests for alternative way using the html-bundler-webpack-plugin
+- docs: update readme
+
 ## 1.0.3 (2023-04-11)
 - fix: fix interface syntax in TS
 - fix: `options` in constructor now is optional parameter in types for TS.
@@ -20,17 +31,17 @@
     stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
   })
   ```
-- feat: added new `stage` option.
-  Webpack plugins use different stages for their functionality.
+- feat: add new `stage` option.
+  Webpack's plugins use different stages for their functionality.
   For properly work other plugins can be specified the `stage` when should be removed empty scripts: before or after processing of other webpack plugins.\
   For example, using `@wordpress/dependency-extraction-webpack-plugin` the empty scripts must be removed `after` processing all plugins.
   Using `webpack-manifest-plugin` the empty scripts must be removed `before` processing other plugins.
 - chore: update packages
-- test: added the test for using with webpack-manifest-plugin
+- test: add the test for using with webpack-manifest-plugin
 - docs: update readme
 
 ## 0.8.4 (2022-09-08)
-- fix: fixed last stable version of ansis in package.json to avoid issues in dependency
+- fix: fix last stable version of ansis in package.json to avoid issues in dependency
 
 ## 0.8.3 (2022-09-04)
 - docs: update readme
@@ -46,16 +57,16 @@
 - docs: update readme
 
 ## 0.8.0 (2022-04-01)
-- feat: added new option `remove` to define custom RegExp for generated assets that must be removed
+- feat: add new option `remove` to define custom RegExp for generated assets that must be removed
 - chore: update packages
 
 ## 0.7.3 (2022-01-30)
-- added color verbose output via ANSI color library - ansis
-- added the test case for styles imported from javascript 
+- feat: add color verbose output via ANSI color library - ansis
+- feat: add the test case for styles imported from javascript 
 
 ## 0.7.2 (2021-12-13)
-- feat: added new option `enable` to enable / disable the plugin, e.g. by development
-- feat: added supports of `RegExp` for option `extensions`
+- feat: add new option `enable` to enable / disable the plugin, e.g. by development
+- feat: add supports of `RegExp` for option `extensions`
 - chore: remove deprecated option `silent`, use `verbose` to show process information (no braking change)
 - chore: add GitHub workflow + codecov
 - chore: update packages
@@ -65,7 +76,7 @@
 - fix: the issue infinite recursion by collect of resources from dependency modules by usage in react app some big components with many thousands dependencies
 
 ## 0.7.0 (2020-12-21)
-- chore: deprecate the `silent` option, it will be removed on Juni 30, 2021. Use option `verbose: true` to show in console each removed empty file. 
+- chore: deprecate the `silent` option, it will be removed on Jun 30, 2021. Use option `verbose: true` to show in console each removed empty file. 
   Defaults, `verbose: false`.
 - fix: issue `Maximum call stack size exceeded` in all cases, for example, by usage the webpack setting `optimization.concatenateModules: true` and:
   - import react
@@ -78,8 +89,8 @@
   - it can be the array of string or RegExp
   - added default value of `ignore` as `['/node_modules/']` to ignore resources from `node_modules` path
 - fix: the error: `Maximum call stack size exceeded` with webpack setting `optimization.concatenateModules: true`and usage in script imports from `react` and `redux`
-- test: added the test case for single style without a scripts in webpack config
-- test: added silent mode in tests to suppress output log info in the console
+- test: add the test case for single style without a scripts in webpack config
+- test: add silent mode in tests to suppress output log info in the console
 - chore: update packages
 
 ## 0.6.3 (2020-10-25)
@@ -90,8 +101,8 @@
 - chore: update packages
 
 ## 0.6.1 (2020-10-20)
-- The fork of original [webpack-fix-style-only-entries](https://github.com/fqborges/webpack-fix-style-only-entries) (ver. 0.6.0) for support only Webpack 5 and above. 
-  The Webpack 4 is no longer supported.
+The fork of original [webpack-fix-style-only-entries](https://github.com/fqborges/webpack-fix-style-only-entries) (ver. 0.6.0) for support only Webpack 5 and above.
+The Webpack 4 is no longer supported.
 
 ### The changes from original version 0.6.0: 
  

@@ -5,7 +5,7 @@ const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 module.exports = {
   mode: 'production',
   output: {
-    path: path.join(__dirname, 'public/'),
+    path: path.join(__dirname, 'dist/'),
     filename: '[name].mjs',
   },
   entry: ['./src/index.mjs', './src/index.css'],

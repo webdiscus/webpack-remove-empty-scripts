@@ -4,15 +4,16 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
 
 const jsConfig = {
+  mode: 'production',
   devtool: 'source-map',
   stats: 'minimal',
-  entry: {
-    'main': './src/js/main.js',
-  },
   output: {
-    path: path.join(__dirname, 'public/js'),
+    path: path.join(__dirname, 'dist/js'),
     filename: '[name].js',
     clean: false, // must be false, otherwise output of first config will be removed
+  },
+  entry: {
+    'main': './src/js/main.js',
   },
   plugins: [
     new DependencyExtractionWebpackPlugin(),
@@ -20,6 +21,7 @@ const jsConfig = {
 };
 
 const styleConfig = {
+  mode: 'production',
   devtool: 'source-map',
   stats: 'minimal',
   entry: {
@@ -39,7 +41,7 @@ const styleConfig = {
     ],
   },
   output: {
-    path: path.join(__dirname, 'public/css'),
+    path: path.join(__dirname, 'dist/css'),
     clean: true,
   },
   plugins: [
