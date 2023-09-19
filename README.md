@@ -39,7 +39,7 @@ This plugin removes generated empty JS files.
 
 > **Warning**
 >
-> This plugin is the `Emergency Crutch` 🩼 for the [mini-css-extract-plugin issue](https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151).\
+> This plugin is the `Crutch` 🩼 for the [mini-css-extract-plugin issue](https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151).\
 > The `mini-css-extract-plugin` extract CSS, but not eliminate a generated empty JS file.
 >
 
@@ -309,6 +309,12 @@ new RemoveEmptyScriptsPlugin({
 <a href='https://github.com/mozilla'>
   <img src='https://avatars.githubusercontent.com/u/131524?s=42&v=4' title='Mozilla'>
 </a>
+<a href='https://github.com/mozmeao'>
+  <img src='https://avatars.githubusercontent.com/u/17653958?s=42&v=4' title='Mozilla Marketing'>
+</a>
+<a href='https://github.com/OpenSourceOrg'>
+  <img src="https://avatars.githubusercontent.com/u/5924333?s=42&v=4" title='Open Source Org'>
+</a>
 <a href='https://github.com/pypi/warehouse'>
   <img src="https://avatars.githubusercontent.com/u/2964877?s=42&v=4" title='PyPi'>
 </a>
@@ -342,6 +348,9 @@ new RemoveEmptyScriptsPlugin({
 <a href='https://github.com/woocommerce'>
   <img src='https://avatars.githubusercontent.com/u/473596?s=42&v=4' title='WooCommerce'>
 </a>
+<a href='https://github.com/plentymarkets'>
+  <img src='https://avatars.githubusercontent.com/u/3379035?s=42&v=4' title='plentymarkets'>
+</a>
 <a href='https://github.com/standardnotes'>
   <img src='https://avatars.githubusercontent.com/u/24537496?s=42&v=4' title='Standard Notes'>
 </a>
@@ -368,6 +377,9 @@ new RemoveEmptyScriptsPlugin({
 </a>
 <a href='https://github.com/TheOdinProject'>
   <img src='https://avatars.githubusercontent.com/u/4441966?s=42&v=4' title='The Odin Project'>
+</a>
+<a href='https://github.com/ministryofjustice'>
+  <img src='https://avatars.githubusercontent.com/u/2203574?s=42&v=4' title='Ministry of Justice, London'>
 </a>
 <a href='https://github.com/helsingborg-stad'>
   <img src='https://avatars.githubusercontent.com/u/12846276?s=42&v=4' title='Helsingborg Stad'>
