@@ -327,6 +327,9 @@ new RemoveEmptyScriptsPlugin({
 <a href='https://www.cisco.com/c/dam/en_us/about/doing_business/open_source/docs/slido-test-2206-1655452418.pdf'>
   <img src='https://avatars.githubusercontent.com/u/1376999?s=42&v=4' title='Cisco'>
 </a>
+<a href='https://gitlab.com/gitlab-com/www-gitlab-com/-/blob/master/webpack.config.js'>
+  <img src='https://avatars.githubusercontent.com/u/22105643?s=42&v=4' title='Cisco'>
+</a>
 <a href='https://github.com/jenkinsci'>
   <img src='https://avatars.githubusercontent.com/u/107424?s=42&v=4' title='Jenkins'>
 </a>
