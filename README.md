@@ -1,13 +1,9 @@
 <div align="center">
   <img width="120" height="120" src="https://cdn.worldvectorlogo.com/logos/logo-javascript.svg">
-  <a href="https://webpack.js.org/">
-    <img width="120" height="120" vspace="" hspace="25" src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon-square-big.svg">
-  </a>
+  <img width="120" height="120" vspace="" hspace="25" src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon-square-big.svg">
   <h1><a href="https://github.com/webdiscus/webpack-remove-empty-scripts">webpack-remove-empty-scripts</a></h1>
-  <div>The Webpack plugin removes empty JavaScript files generated when using styles.</div>
 </div>
 
----
 [![npm](https://img.shields.io/npm/v/webpack-remove-empty-scripts?logo=npm&color=brightgreen "npm package")](https://www.npmjs.com/package/webpack-remove-empty-scripts "download npm package")
 [![node](https://img.shields.io/node/v/webpack-remove-empty-scripts)](https://nodejs.org)
 [![node](https://img.shields.io/github/package-json/dependency-version/webdiscus/webpack-remove-empty-scripts/peer/webpack)](https://webpack.js.org/)
@@ -15,11 +11,14 @@
 [![codecov](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/webdiscus/webpack-remove-empty-scripts)
 [![node](https://img.shields.io/npm/dm/webpack-remove-empty-scripts)](https://www.npmjs.com/package/webpack-remove-empty-scripts)
 
-## The problem this plugin solves
+A Webpack plugin to remove empty JavaScript files generated when using style only entries.
 
-Webpack generates a JS file for each resource defined in the entry option.
+## Problem this plugin solves
 
-For example, you have a style file in the `entry` option:
+By default, Webpack creates a JavaScript file for every entry specified in the `entry` option - even when the entry is a style file (like SCSS or CSS).
+
+Example:
+
 ```js
 module.exports = {
   entry: {
@@ -28,28 +27,24 @@ module.exports = {
 }
 ```
 
-The following files are generated in the output directory:
+Output:
 
 ```
 dist/styles.css
-dist/styles.js // <= unexpected empty JS file
+dist/styles.js // <= unwanted empty JS file
 ```
 
-This plugin removes generated empty JS files.
+When using `mini-css-extract-plugin`, CSS is correctly extracted into a separate file, but Webpack still emits an empty JavaScript file for each style-only entry - the [known issue](https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151).
 
-> **Warning**
+This plugin detects and removes those redundant `.js` files automatically, keeping your output clean.
+
+> [!NOTE]
 >
-> This plugin is the `Crutch` 🩼 for the [mini-css-extract-plugin issue](https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151).\
-> The `mini-css-extract-plugin` extract CSS, but not eliminate a generated empty JS file.
->
-
-
-> **Note**
-> 
-> This plugin is compatible with `Webpack 5`. For `Webpack 4` use [webpack-fix-style-only-entries](https://github.com/fqborges/webpack-fix-style-only-entries).
+> This plugin is compatible with `Webpack 5`.
+> For `Webpack 4` use [webpack-fix-style-only-entries](https://github.com/fqborges/webpack-fix-style-only-entries).
 
 ## Install
-```console
+```bash
 npm install webpack-remove-empty-scripts --save-dev
 ```
 

@@ -1,6 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
 const baseConfig = {
   mode: 'production',

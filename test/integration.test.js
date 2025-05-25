@@ -5,9 +5,6 @@ beforeAll(() => {
   process.env.NODE_ENV_TEST = 'true';
 });
 
-beforeEach(() => {
-});
-
 describe('options tests', () => {
   test('extension as array', () => compareFiles('option-extension-array'));
   test('extension as regexp', () => compareFiles('option-extension-regexp'));
@@ -46,25 +43,6 @@ describe('complex use cases with specific webpack plugins', () => {
 describe('exceptions', () => {
   test('execute template function', () => {
     const containString = `Invalid value of config option 'stage'`;
-    exceptionContain( 'exception-option-stage-invalid', containString);
+    return exceptionContain( 'exception-option-stage-invalid', containString);
   });
-});
-
-describe('using the html-bundler-webpack-plugin', () => {
-  test('css-entry-only', () =>compareFiles( '_bundler-css-entry-only'));
-});
-
-/**
- * The same tests but using the html-bundler-webpack-plugin.
- *
- * Instead of the following plugins:
- * - `html-webpack-plugin`
- * - `mini-css-extract-plugin`
- * - `webpack-remove-empty-scripts`
- *
- * you can use one modern `html-bundler-webpack-plugin`.
- */
-describe('using the html-bundler-webpack-plugin', () => {
-  test('css-entry-only', () => compareFiles('_bundler-css-entry-only'));
-  //test('css-import', () => compareFiles('_bundler-css-import')); // TODO: fix HtmlBundlerPlugin
 });

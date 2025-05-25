@@ -1,0 +1,36 @@
+{
+  "name": "webpack-remove-empty-scripts",
+  "version": "1.1.0",
+  "description": "Webpack plugin removes empty JavaScript files generated when using styles.",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "remove",
+    "empty",
+    "script",
+    "entry",
+    "style",
+    "scss",
+    "sass",
+    "css",
+    "js",
+    "javascript"
+  ],
+  "license": "ISC",
+  "author": "webdiscus",
+  "funding": {
+    "type": "patreon",
+    "url": "https://patreon.com/biodiscus"
+  },
+  "repository": "webdiscus/webpack-remove-empty-scripts",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=12.14"
+  },
+  "peerDependencies": {
+    "webpack": ">=5.32.0"
+  },
+  "dependencies": {
+    "ansis": "4.0.0-node10"
+  }
+}

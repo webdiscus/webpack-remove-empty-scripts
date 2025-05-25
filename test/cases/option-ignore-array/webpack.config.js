@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
 const middlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&name=';
 

@@ -1,5 +1,5 @@
 const path = require('path');
-const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
 module.exports = {
   mode: 'production',

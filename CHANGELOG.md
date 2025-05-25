@@ -1,3 +1,11 @@
+## 1.1.0 (2025-05-25)
+
+- chore: optimize npm package and reduce unpacked size: 31 kB -> 9 kB
+- docs: update readme
+
+## 1.0.4 (2023-09-23)
+- docs: update readme
+
 ## 1.0.4 (2023-08-28)
 - fix: remove needless double new lines in console output when the `verbose` option is enabled
 - chore: add Community Standards files

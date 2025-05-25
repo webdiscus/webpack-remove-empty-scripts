@@ -1,4 +1,4 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[736],{784:e=>{
+(self.webpackChunk=self.webpackChunk||[]).push([[121],{696:e=>{
 /*!
  * Test fixture - JS module Lorem (https://github.com/webdiscus/test-fixtures-lorem)
  * Copyleft 2022 @test-fixtures/lorem

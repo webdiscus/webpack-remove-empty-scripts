@@ -1,6 +1,6 @@
 {
   "name": "webpack-remove-empty-scripts",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Webpack plugin removes empty JavaScript files generated when using styles.",
   "keywords": [
     "webpack",
@@ -14,8 +14,7 @@
     "sass",
     "css",
     "js",
-    "javascript",
-    "mini-css-extract-plugin"
+    "javascript"
   ],
   "license": "ISC",
   "author": "webdiscus (https://github.com/webdiscus)",
@@ -41,14 +40,15 @@
   "main": "src/index.js",
   "scripts": {
     "install:yarn": "yarn install --ignore-engines",
+    "postinstall": "npm run build && npm i webpack-remove-empty-scripts -D",
+    "build": "rollup -c",
     "test": "jest --detectOpenHandles --config ./test/jest.config.js",
     "test:coverage": "jest --detectOpenHandles --collectCoverage --config ./test/jest.config.js",
-    "publish:public": "npm publish --access public",
-    "publish:beta": "npm publish --tag beta"
+    "publish:public": "(npm run build) && npm publish ./dist --access public",
+    "publish:beta": "(npm run build) && npm publish ./dist --tag beta"
   },
   "files": [
     "src",
-    "CHANGELOG.md",
     "README.md",
     "LICENSE"
   ],
@@ -59,24 +59,34 @@
     "webpack": ">=5.32.0"
   },
   "dependencies": {
-    "ansis": "1.5.2"
+    "ansis": "4.0.0-node10"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.7",
-    "@babel/preset-env": "^7.23.8",
+    "@babel/core": "^7.27.1",
+    "@babel/preset-env": "^7.27.2",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
     "@test-fixtures/lorem": "0.0.2",
-    "@types/jest": "^29.5.11",
-    "@wordpress/scripts": "^27.0.0",
-    "@wordpress/dependency-extraction-webpack-plugin": "^5.0.0",
-    "css-loader": "^6.9.0",
-    "html-bundler-webpack-plugin": "^3.4.10",
-    "html-loader": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "@wordpress/scripts": "^30.17.0",
+    "@wordpress/dependency-extraction-webpack-plugin": "^6.24.0",
+    "css-loader": "^7.1.2",
+    "html-loader": "^5.1.0",
     "jest": "^29.7.0",
-    "mini-css-extract-plugin": "^2.7.7",
-    "terser-webpack-plugin": "^5.3.10",
-    "webpack": "^5.89.0",
-    "webpack-hot-middleware": "^2.26.0",
-    "webpack-manifest-plugin": "^5.0.0",
-    "webpack-merge": "^5.10.0"
+    "mini-css-extract-plugin": "^2.9.2",
+    "rollup": "^4.41.1",
+    "rollup-plugin-copy": "^3.5.0",
+    "terser-webpack-plugin": "^5.3.14",
+    "webpack": "^5.99.9",
+    "webpack-hot-middleware": "^2.26.1",
+    "webpack-manifest-plugin": "^5.0.1",
+    "webpack-merge": "^6.0.1",
+    "webpack-remove-empty-scripts": "file:dist"
+  },
+  "overrides": {
+    "rollup-plugin-copy": {
+      "globby": "^11.0.0"
+    }
   }
 }

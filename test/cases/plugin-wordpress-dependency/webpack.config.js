@@ -1,7 +1,7 @@
 const path = require('path');
 const DependencyExtractionWebpackPlugin = require('@wordpress/dependency-extraction-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const RemoveEmptyScriptsPlugin = require('../../../src/index.js');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
 const jsConfig = {
   mode: 'production',

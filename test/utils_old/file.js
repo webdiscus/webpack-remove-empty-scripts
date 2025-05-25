@@ -91,14 +91,13 @@ export const removeDirsSync = function (dir, test) {
  * Return content of file as string.
  *
  * @param {string} file
- * @param {string} encoding
  * @return {any}
  */
-export const readTextFileSync = (file, encoding = 'utf-8') => {
+export const readTextFileSync = (file) => {
   if (!fs.existsSync(file)) {
     throw new Error(`\nERROR: the file "${file}" not found.`);
   }
-  return fs.readFileSync(file, encoding);
+  return fs.readFileSync(file, 'utf-8');
 };
 
 /**

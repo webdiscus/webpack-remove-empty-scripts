@@ -3,19 +3,19 @@
  */
 
 const path = require('path');
-const { cyan,  black, gray} = require('ansis/colors');
+const { cyan, black, gray} = require('ansis');
 
 const { outToConsole } = require('./utils');
 
 const pluginName = 'remove-empty-scripts';
-const infoPluginName = `\n${black.bgYellow`[${pluginName}]`}`;
-const errorPluginName = `\n${black.bgRed`[${pluginName}]`}`;
+const infoPluginName = `\n${black.bgYellow` ${pluginName} `}`;
+const errorPluginName = `\n${black.bgRed` ${pluginName} `}`;
 
 // Save unique id in dependency object as marker of 'analysed module'
 // to avoid the infinite recursion by collect of resources.
 let dependencyId = 1;
 
-class WebpackRemoveEmptyScriptsPlugin {
+class WebpackPlugin {
   outputPath = '';
   trash = [];
 
@@ -83,11 +83,11 @@ class WebpackRemoveEmptyScriptsPlugin {
           }
 
           switch (stage) {
-            case WebpackRemoveEmptyScriptsPlugin.STAGE_BEFORE_PROCESS_PLUGINS:
+            case WebpackPlugin.STAGE_BEFORE_PROCESS_PLUGINS:
               // remove empty script immediately, before other plugins will be called
               compilation.deleteAsset(filename);
               break;
-            case WebpackRemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS:
+            case WebpackPlugin.STAGE_AFTER_PROCESS_PLUGINS:
               // add file to trash, which at 'afterProcessAssets' wird cleaned
               // remove empty script later, after all plugins are called
               this.trash.push(filename);
@@ -117,7 +117,7 @@ const defaultOptions = {
   extensions: ['css', 'scss', 'sass', 'less', 'styl'],
   ignore: [],
   remove: /\.(js|mjs)$/,
-  stage: WebpackRemoveEmptyScriptsPlugin.STAGE_BEFORE_PROCESS_PLUGINS,
+  stage: WebpackPlugin.STAGE_BEFORE_PROCESS_PLUGINS,
 };
 
 function getEntryResources (compilation, module, cache) {
@@ -168,4 +168,4 @@ function getEntryResources (compilation, module, cache) {
   return resources;
 }
 
-module.exports = WebpackRemoveEmptyScriptsPlugin;
+module.exports = WebpackPlugin;
