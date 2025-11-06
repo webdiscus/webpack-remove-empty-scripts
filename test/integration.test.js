@@ -16,6 +16,7 @@ describe('options tests', () => {
 describe('common use case tests', () => {
   test('css-entry-only', () => compareFiles( 'css-entry-only'));
   test('css-import', () => compareFiles( 'css-import'));
+  test('css-import-dynamic', () => compareFiles( 'css-import-dynamic'));
   test('css-entry-with-ignored-hmr', () => compareFiles( 'css-entry-with-ignored-hmr', false));
   test('css-entry-with-query', () => compareFiles( 'css-entry-with-query'));
   test('multi-configuration', () => compareFiles( 'multi-configuration'));
