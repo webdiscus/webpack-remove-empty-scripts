@@ -291,7 +291,19 @@ new RemoveEmptyScriptsPlugin({
   ]
 })
 ```
+
 [See the test case](https://github.com/webdiscus/webpack-remove-empty-scripts/blob/master/test/cases/css-entry-with-ignored-hmr/webpack.config.js).
+
+
+### Using dynamic CSS imports
+
+For dynamic CSS imports, in addition to using `RemoveEmptyScriptsPlugin()` in Webpack config, you must specify `webpackMode: "eager"`:
+
+```js
+import(/* webpackMode: "eager" */ './main.css');
+```
+
+[See the test case](https://github.com/webdiscus/webpack-remove-empty-scripts/tree/master/test/cases/css-import-dynamic).
 
 ## Testing
 
